@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @scan.product %>
+</p>
+
+<p>
+  <strong>Checkout:</strong>
+  <%= @scan.checkout %>
+</p>
+
+<%= link_to 'Edit', edit_scan_path(@scan) %> |
+<%= link_to 'Back', scans_path %>

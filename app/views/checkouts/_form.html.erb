@@ -1,0 +1,27 @@
+<%= form_with(model: checkout, local: true) do |form| %>
+  <% if checkout.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(checkout.errors.count, "error") %> prohibited this checkout from being saved:</h2>
+
+      <ul>
+      <% checkout.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status, id: :checkout_status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :employee_id %>
+    <%= form.text_field :employee_id, id: :checkout_employee_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
