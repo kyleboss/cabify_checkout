@@ -1,0 +1,2 @@
+class BuyXGetXProduct < Product
+end

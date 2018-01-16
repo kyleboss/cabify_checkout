@@ -1,0 +1,2 @@
+class BulkProduct < Product
+end

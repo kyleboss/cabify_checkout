@@ -2,6 +2,7 @@ class CreateProducts < ActiveRecord::Migration[5.1]
   def change
     create_table :products do |t|
       t.string :title
+      t.string :image_url
       t.decimal :base_price, precision: 8, scale: 2
       t.string :base_currency
       t.string :barcode_number

@@ -1,3 +1,5 @@
 class Checkout < ApplicationRecord
-  belongs_to :employee
+  def scan; end
+
+  def total; end
 end
