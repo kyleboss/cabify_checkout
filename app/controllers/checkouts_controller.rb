@@ -1,5 +1,5 @@
 class CheckoutsController < ApplicationController
-  before_action :set_checkout, only: [:show, :edit, :update, :destroy]
+  before_action :set_checkout, only: %i[show edit update destroy]
 
   # GET /checkouts
   # GET /checkouts.json
@@ -9,8 +9,7 @@ class CheckoutsController < ApplicationController
 
   # GET /checkouts/1
   # GET /checkouts/1.json
-  def show
-  end
+  def show; end
 
   # GET /checkouts/new
   def new
@@ -18,8 +17,7 @@ class CheckoutsController < ApplicationController
   end
 
   # GET /checkouts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /checkouts
   # POST /checkouts.json
@@ -62,13 +60,14 @@ class CheckoutsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_checkout
-      @checkout = Checkout.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def checkout_params
-      params.require(:checkout).permit(:status, :employee_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_checkout
+    @checkout = Checkout.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def checkout_params
+    params.require(:checkout).permit(:status, :employee_id)
+  end
 end

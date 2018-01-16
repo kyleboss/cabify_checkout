@@ -1,5 +1,5 @@
 class ScansController < ApplicationController
-  before_action :set_scan, only: [:show, :edit, :update, :destroy]
+  before_action :set_scan, only: %i[show edit update destroy]
 
   # GET /scans
   # GET /scans.json
@@ -9,8 +9,7 @@ class ScansController < ApplicationController
 
   # GET /scans/1
   # GET /scans/1.json
-  def show
-  end
+  def show; end
 
   # GET /scans/new
   def new
@@ -18,8 +17,7 @@ class ScansController < ApplicationController
   end
 
   # GET /scans/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /scans
   # POST /scans.json
@@ -62,13 +60,14 @@ class ScansController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_scan
-      @scan = Scan.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def scan_params
-      params.require(:scan).permit(:product_id, :checkout_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_scan
+    @scan = Scan.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def scan_params
+    params.require(:scan).permit(:product_id, :checkout_id)
+  end
 end
