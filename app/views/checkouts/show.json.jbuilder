@@ -1,1 +1,1 @@
-json.partial! "checkouts/checkout", checkout: @checkout
+json.partial! 'checkouts/checkout', checkout: @checkout
