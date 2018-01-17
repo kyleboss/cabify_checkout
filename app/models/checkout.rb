@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A Checkout resembles a list of scans. This means a checkout can have many scans, and can have many products from
 # those many scans.
 class Checkout < ApplicationRecord

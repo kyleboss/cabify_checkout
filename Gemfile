@@ -63,6 +63,9 @@ group :test do
   # Strategies for cleaning databases in Ruby. Can be used to ensure a clean state for testing.
   # http://databasecleaner.github.io
   gem 'database_cleaner', '1.6.2'
+  # Code coverage for Ruby 1.9+ with a powerful configuration library and automatic merging of coverage across test
+  # suites
+  gem 'simplecov', '0.15.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScansController < ApplicationController
   before_action :set_scan, only: %i[show edit update destroy]
 

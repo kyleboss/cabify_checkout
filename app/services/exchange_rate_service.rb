@@ -1,5 +1,6 @@
-class ExchangeRateService
+# frozen_string_literal: true
 
+class ExchangeRateService
   def self.exchange_rate(base_currency, resulting_currency)
     base_currency == resulting_currency ? 1 : currency_bank.get_rate(base_currency, resulting_currency).to_f
   end

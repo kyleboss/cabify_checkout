@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckoutsController < ApplicationController
   before_action :set_checkout, only: %i[show edit update destroy]
 
