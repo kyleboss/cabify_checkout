@@ -17,9 +17,10 @@ class Checkout < ApplicationRecord
 
   # Returns the total cost the shopper owes for this checkout. It does this by taking all of the scans that were made
   # during this checkout process & getting their respective costs. The sum of all the scans is the total.
-  # If there are no sums, 0 will be returned.
-  def total
-    scans.sum(&:total_cost)
+  # If there are no sums, 0 will be returned. Also, it takes in a currency, which will be used if a physical store is
+  # located outside of Cabify's country or if a shopper desires to use a different currency.
+  def total(currency = :EUR)
+    scans.sum { |s| s.total_cost(currency) }
   end
 
   private

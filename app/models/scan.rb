@@ -8,7 +8,8 @@ class Scan < ApplicationRecord
   belongs_to :checkout
   validates_numericality_of :quantity, only_integer: true, greater_than_or_equal_to: 0
 
-  def total_cost
-    product.total_cost(quantity)
+  # Calculates the total cost of this scan. Generally will be called by Checkout#total
+  def total_cost(currency = :EUR)
+    product.total_cost(quantity, currency)
   end
 end
