@@ -1,6 +1,4 @@
 module Exceptions
-  class InvalidQuantityException < StandardError; end
-  class NANQuantityException < InvalidQuantityException; end
-  class NegativeQuantityException < InvalidQuantityException; end
-  class ProductDoesNotExistException < StandardError; end
+  class InvalidCurrency < StandardError; end
+  class NegativeQuantity < StandardError; end
 end

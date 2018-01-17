@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20180116202442) do
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.string "image_url"
+    t.string "type"
     t.decimal "base_price", precision: 8, scale: 2
     t.string "base_currency"
     t.string "barcode_number"
