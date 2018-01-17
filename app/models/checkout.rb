@@ -11,11 +11,16 @@ class Checkout < ApplicationRecord
   # Note: Quantity can be negative. This will allow the cashier to undo a mistake.
   def scan(product_identifier, quantity = 1)
     product = Product.retrieve_product(product_identifier) # Turn barcode number/name to a Product object
-    scan_for_product = find_scan_for(product)
+    scan_for_product = scan_for(product)
     update_quantity_or_create_scan(product, quantity, scan_for_product)
   end
 
-  def total; end
+  # Returns the total cost the shopper owes for this checkout. It does this by taking all of the scans that were made
+  # during this checkout process & getting their respective costs. The sum of all the scans is the total.
+  # If there are no sums, 0 will be returned.
+  def total
+    scans.sum(&:total_cost)
+  end
 
   private
 
@@ -33,7 +38,7 @@ class Checkout < ApplicationRecord
 
   # Finds the scan that occured during this specific checkout for a given product. It's very possible that this
   # checkout has yet to scan this product, in which case nil will be returned.
-  def find_scan_for(product_obj)
-    scans.select { |s| s.product.id == product_obj&.id }.first
+  def scan_for(product)
+    scans.select { |s| s.product_id == product&.id }.first
   end
 end

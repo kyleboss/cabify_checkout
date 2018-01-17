@@ -7,4 +7,8 @@ class Scan < ApplicationRecord
   belongs_to :product
   belongs_to :checkout
   validates_numericality_of :quantity, only_integer: true, greater_than_or_equal_to: 0
+
+  def total_cost
+    product.total_cost(quantity)
+  end
 end
