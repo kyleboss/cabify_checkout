@@ -1,0 +1,65 @@
+@import 'colors';
+.search-bar {
+  width: 80%;
+  height: 60px;
+  display: flex;
+  margin: 0 auto;
+  border: solid 2px $lavander-active;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 750px;
+  flex-wrap: wrap;
+}
+
+.search-bar__query {
+  font-size: 30px;
+  color: $dark-gray-active;
+  flex: 5;
+  padding: 0 20px;
+  border: none;
+  outline: none;
+  font-weight: 300;
+
+  &::-webkit-input-placeholder {
+    color: $medium-gray;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $medium-gray;
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+    color: $medium-gray;
+  }
+
+  &:-ms-input-placeholder {
+    color: $medium-gray;
+  }
+}
+
+.search-bar__quantity {
+  font-size: 30px;
+  border: none;
+  padding: 0 15px;
+  flex: 1;
+  max-width: 50px;
+  border-left: solid 2px $lavander;
+  border-right: solid 2px $lavander;
+  font-weight: 200;
+  color: $dark-gray-active;
+}
+
+.search-bar__submit {
+  flex: 1;
+  background-color: $grass-active;
+  border: none;
+  outline: none;
+  font-size: 30px;
+  cursor: pointer;
+  color: $light-gray;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: $grass;
+  }
+}

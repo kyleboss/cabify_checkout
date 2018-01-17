@@ -16,7 +16,6 @@ class ExchangeRateService
   end
 
   def self.valid_currencies
-    @_valid_currencies ||= %i[eur usd jpy gbp cyp czk dkk eek huf ltl mtl pln sek sit skk chf isk nok bgn hrk rol ron
-                              rub trl aud cad cny hkd idr krw myr nzd php sgd thb zar].freeze
+    @_valid_currencies ||= %i[eur usd gbp].freeze
   end
 end

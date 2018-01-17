@@ -8,8 +8,6 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-global:
-  - CC_TEST_REPORTER_ID=c5e59eff46df977606510bae654b713e0e7e6c9c07a39e5d8d6080153d08429a
 script:
   - bundle exec rspec
 after_script:
