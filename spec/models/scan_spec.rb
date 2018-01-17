@@ -1,5 +1,3 @@
-require 'rails_helper'
+describe Scan do
 
-RSpec.describe Scan, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 end

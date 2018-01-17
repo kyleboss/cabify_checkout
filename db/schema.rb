@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 20180116202442) do
 
   create_table "checkouts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -35,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180116202442) do
   create_table "scans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "product_id"
     t.bigint "checkout_id"
+    t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["checkout_id"], name: "index_scans_on_checkout_id"

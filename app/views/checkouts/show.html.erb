@@ -1,14 +1,4 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @checkout.status %>
-</p>
-
-<p>
-  <strong>Employee:</strong>
-  <%= @checkout.employee %>
-</p>
-
 <%= link_to 'Edit', edit_checkout_path(@checkout) %> |
 <%= link_to 'Back', checkouts_path %>

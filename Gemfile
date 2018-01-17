@@ -40,15 +40,26 @@ group :development, :test do
   gem 'selenium-webdriver'
   # RSpec for Rails-3+ http://relishapp.com/rspec/rspec-rails
   gem 'rspec-rails', '3.7'
+  # Factory Bot ♥ Rails
+  gem 'factory_bot_rails', '4.8.2'
+  # A library for generating fake data such as names, addresses, and phone numbers.
+  gem 'faker', '1.8.7'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Spring speeds up development by keeping your application running in the background. Read more:
+  # https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  # Strategies for cleaning databases in Ruby. Can be used to ensure a clean state for testing.
+  # http://databasecleaner.github.io
+  gem 'database_cleaner', '1.6.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
