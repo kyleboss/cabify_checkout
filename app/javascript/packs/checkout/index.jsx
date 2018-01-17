@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Hero from "./hero";
+import Cart from "./cart";
 
 export default class Checkout extends React.Component {
     constructor(props) {
@@ -20,12 +21,13 @@ export default class Checkout extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className='checkout-container'>
                 <Hero
                     currencies={this.currencies}
                     currency={this.state.currency}
                     onCurrencyChange={this.setCurrency.bind(this)}
                 />
+                <Cart />
             </div>
         );
     }

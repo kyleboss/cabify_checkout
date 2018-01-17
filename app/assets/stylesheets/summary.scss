@@ -1,0 +1,67 @@
+@import "colors";
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  margin: 20px 0 0 0;
+}
+
+.summary_section {
+  display: flex;
+  padding: 30px 10px;
+  border-bottom: solid 1px $medium-gray;
+  border-left: solid 1px $medium-gray;
+  border-right: solid 1px $medium-gray;
+
+  &:first-of-type {
+    border-top: 1px solid $medium-gray;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+}
+
+.summary__product {
+  background-color: $light-gray;
+}
+
+.summary__product-discount {
+  background-color: $light-gray-active;
+}
+
+.summary__product-value {
+  font-size: 15px;
+}
+
+.summary__product-label {
+  font-size: 18px;
+  flex: 10;
+}
+
+.summary__total {
+  background-color: $dark-gray-active;
+  color: $light-gray;
+  padding: 10px;
+}
+
+.summary__checkout-button {
+  padding: 20px 10px;
+  background-color: $grass-active;
+  color: $light-gray;
+  border: none;
+  outline: none;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 20px;
+  margin: 20px 0 0 0;
+
+  &:hover {
+    background-color: $grass;
+  }
+}
