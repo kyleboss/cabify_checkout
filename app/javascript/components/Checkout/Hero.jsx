@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import SearchBar from "./search_bar";
-import CurrencySelector from "./currency_selector";
+import SearchBar from "./SearchBar";
+import CurrencySelector from "./CurrencySelector";
 
 export default class Hero extends React.Component {
     constructor(props) {

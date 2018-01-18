@@ -1,1 +1,3 @@
-<%= javascript_pack_tag 'checkout/index' %>
+<%= javascript_pack_tag 'checkout' %>
+<%= content_tag :div, id: "checkout_data", data: {allProducts: @all_products}.to_json do %>
+<% end %>

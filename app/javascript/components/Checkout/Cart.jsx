@@ -1,6 +1,6 @@
 import React from "react";
-import ProductCard from "./product_card";
-import Summary from "./summary";
+import ProductCard from "./ProductCard";
+import Summary from "./Summary";
 
 export default class Cart extends React.Component {
     constructor(props) {

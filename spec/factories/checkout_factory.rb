@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :checkout do
+  factory :Checkout do
 
   end
 end

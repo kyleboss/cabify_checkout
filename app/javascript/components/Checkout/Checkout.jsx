@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import Hero from "./hero";
-import Cart from "./cart";
+import Hero from "./Hero";
+import Cart from "./Cart";
 
 export default class Checkout extends React.Component {
     constructor(props) {
@@ -37,10 +37,3 @@ export default class Checkout extends React.Component {
         );
     }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-    ReactDOM.render(
-        <Checkout />,
-        document.body.appendChild(document.createElement('div')),
-    )
-});

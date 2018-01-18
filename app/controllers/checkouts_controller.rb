@@ -16,6 +16,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new
   def new
     @checkout = Checkout.new
+    @all_products = Product.all.as_json
   end
 
   # GET /checkouts/1/edit
@@ -70,6 +71,6 @@ class CheckoutsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def checkout_params
-    params.require(:checkout)
+    params.require(:Checkout)
   end
 end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# A Checkout resembles a list of scans. This means a checkout can have many scans, and can have many products from
+# A Checkout resembles a list of scans. This means a Checkout can have many scans, and can have many products from
 # those many scans.
 class Checkout < ApplicationRecord
   has_many :scans
   has_many :products, through: :scans
 
-  # Scan takes in a "product identifier" and a quantity and creates a Scan object, essentially linking this checkout
+  # Scan takes in a "product identifier" and a quantity and creates a Scan object, essentially linking this Checkout
   # with a product (and it's quantity). The product identifier can either be the barcode number or name of the product.
   # We leave validation of product_id and quantity to the Scan validation.
   #
@@ -17,8 +17,8 @@ class Checkout < ApplicationRecord
     update_quantity_or_create_scan(product, quantity, scan_for_product)
   end
 
-  # Returns the total cost the shopper owes for this checkout. It does this by taking all of the scans that were made
-  # during this checkout process & getting their respective costs. The sum of all the scans is the total.
+  # Returns the total cost the shopper owes for this Checkout. It does this by taking all of the scans that were made
+  # during this Checkout process & getting their respective costs. The sum of all the scans is the total.
   # If there are no sums, 0 will be returned. Also, it takes in a currency, which will be used if a physical store is
   # located outside of Cabify's country or if a shopper desires to use a different currency.
   def total(currency = :EUR)
@@ -39,8 +39,8 @@ class Checkout < ApplicationRecord
     scan_for_product.save! # Takes care of unknown product or a net-negative quantity...
   end
 
-  # Finds the scan that occured during this specific checkout for a given product. It's very possible that this
-  # checkout has yet to scan this product, in which case nil will be returned.
+  # Finds the scan that occured during this specific Checkout for a given product. It's very possible that this
+  # Checkout has yet to scan this product, in which case nil will be returned.
   def scan_for(product)
     scans.select { |s| s.product_id == product&.id }.first
   end

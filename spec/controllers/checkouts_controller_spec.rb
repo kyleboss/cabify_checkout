@@ -76,19 +76,19 @@ RSpec.describe CheckoutsController, type: :controller do
     context "with valid params" do
       it "creates a new Checkout" do
         expect {
-          post :create, params: {checkout: valid_attributes}, session: valid_session
+          post :create, params: {Checkout: valid_attributes}, session: valid_session
         }.to change(Checkout, :count).by(1)
       end
 
-      it "redirects to the created checkout" do
-        post :create, params: {checkout: valid_attributes}, session: valid_session
+      it "redirects to the created Checkout" do
+        post :create, params: {Checkout: valid_attributes}, session: valid_session
         expect(response).to redirect_to(Checkout.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {checkout: invalid_attributes}, session: valid_session
+        post :create, params: {Checkout: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
     end
@@ -100,16 +100,16 @@ RSpec.describe CheckoutsController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested checkout" do
+      it "updates the requested Checkout" do
         checkout = Checkout.create! valid_attributes
-        put :update, params: {id: checkout.to_param, checkout: new_attributes}, session: valid_session
+        put :update, params: {id: checkout.to_param, Checkout: new_attributes}, session: valid_session
         checkout.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the checkout" do
+      it "redirects to the Checkout" do
         checkout = Checkout.create! valid_attributes
-        put :update, params: {id: checkout.to_param, checkout: valid_attributes}, session: valid_session
+        put :update, params: {id: checkout.to_param, Checkout: valid_attributes}, session: valid_session
         expect(response).to redirect_to(checkout)
       end
     end
@@ -117,14 +117,14 @@ RSpec.describe CheckoutsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         checkout = Checkout.create! valid_attributes
-        put :update, params: {id: checkout.to_param, checkout: invalid_attributes}, session: valid_session
+        put :update, params: {id: checkout.to_param, Checkout: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested checkout" do
+    it "destroys the requested Checkout" do
       checkout = Checkout.create! valid_attributes
       expect {
         delete :destroy, params: {id: checkout.to_param}, session: valid_session

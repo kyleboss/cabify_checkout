@@ -5,7 +5,6 @@
 # We are going to validate that:
 #
 # the base_price > 0, otherwise we run the risk of giving the shopper money. Ooh lala.
-#
 class Product < ApplicationRecord
   validates_numericality_of :base_price, greater_than_or_equal_to: 0
   validates_presence_of :title, :image_url, :base_price, :barcode_number
