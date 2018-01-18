@@ -26,8 +26,13 @@ export default class Checkout extends React.Component {
                     currencies={this.currencies}
                     currency={this.state.currency}
                     onCurrencyChange={this.setCurrency.bind(this)}
+                    allProducts={this.props.allProducts}
                 />
-                <Cart />
+                <Cart
+                    currencySymbol={this.state.currency.symbol}
+                    scannedProducts={this.props.scannedProducts}
+                    discounts={this.props.discounts}
+                />
             </div>
         );
     }
