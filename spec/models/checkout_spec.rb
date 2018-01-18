@@ -1,7 +1,7 @@
 describe Checkout do
   describe '#scan' do
     after(:each) { checkout.scan(product.id, 5) }
-    let(:Checkout) { FactoryBot.build_stubbed(:Checkout) }
+    let(:checkout) { FactoryBot.build_stubbed(:checkout) }
     let(:product) { FactoryBot.build_stubbed(:product) }
     let(:scan) { FactoryBot.build_stubbed(:scan, checkout_id: checkout&.id, product_id: product&.id, quantity: 1) }
     describe Product do
@@ -13,7 +13,7 @@ describe Checkout do
       it { is_expected.to receive(:retrieve_product).with(product.id) { product } }
     end
 
-    describe 'Checkout' do
+    describe 'checkout' do
       subject { checkout }
       before(:each) do
         allow(Product).to receive(:retrieve_product).with(product&.id) { product }
@@ -28,7 +28,7 @@ describe Checkout do
 
   describe 'update_quantity_or_create_scan' do
     subject { checkout.send(:update_quantity_or_create_scan, product, quantity, scan) }
-    let(:Checkout) { FactoryBot.create(:Checkout) }
+    let(:checkout) { FactoryBot.create(:checkout) }
     let(:product) { FactoryBot.create(:product) }
     let(:scan) { FactoryBot.create(:scan, checkout_id: checkout&.id, product_id: product&.id, quantity: 1) }
     let(:quantity) { 2 }
@@ -47,7 +47,7 @@ describe Checkout do
       end
     end
 
-    context 'within the current Checkout, this product has already been scanned' do
+    context 'within the current checkout, this product has already been scanned' do
       it 'adds increases the quantity of the existing scan by quantity' do
         checkout.send(:update_quantity_or_create_scan, product, quantity, scan)
         expect(scan.quantity).to eq 3
@@ -62,7 +62,7 @@ describe Checkout do
       end
     end
 
-    context 'within the current Checkout, this product has not already been scanned' do
+    context 'within the current checkout, this product has not already been scanned' do
       let(:scans) { nil }
       subject { checkout.send(:update_quantity_or_create_scan, product, quantity, scan) }
       describe 'Scans.count' do
@@ -75,7 +75,7 @@ describe Checkout do
 
   describe '#scan_for' do
     before(:each) { allow(checkout).to receive(:scans) { [scan].compact } }
-    let(:Checkout) { FactoryBot.build_stubbed(:Checkout) }
+    let(:checkout) { FactoryBot.build_stubbed(:checkout) }
     let(:product) { FactoryBot.build_stubbed(:product) }
     let(:scan) { FactoryBot.build_stubbed(:scan, product_id: product&.id) }
     subject { checkout.send(:scan_for, product) }
@@ -88,18 +88,18 @@ describe Checkout do
       let(:scan) { FactoryBot.build_stubbed(:scan, product_id: 5) }
       it { is_expected.to be_nil }
     end
-    context 'none of the scans for this Checkout is for the given product' do
+    context 'none of the scans for this checkout is for the given product' do
       let(:scan) { FactoryBot.build_stubbed(:scan, product_id: (product.id)+1) }
       it { is_expected.to be_nil }
     end
-    context 'a single scan in this Checkout is for the given product' do
+    context 'a single scan in this checkout is for the given product' do
       let(:scan) { FactoryBot.build_stubbed(:scan, product_id: product.id) }
       it { is_expected.to eq scan }
     end
   end
 
   describe '#total' do
-    let(:Checkout) { FactoryBot.build_stubbed(:Checkout) }
+    let(:checkout) { FactoryBot.build_stubbed(:checkout) }
     let(:scans) { [scan1, scan2, scan3] }
     let(:scan1) { FactoryBot.build_stubbed(:scan, quantity: 1) }
     let(:scan2) { FactoryBot.build_stubbed(:scan, quantity: 4) }
