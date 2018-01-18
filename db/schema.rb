@@ -18,24 +18,24 @@ ActiveRecord::Schema.define(version: 20180116202442) do
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "title"
-    t.string "image_url"
-    t.string "type"
-    t.decimal "base_price", precision: 8, scale: 2
-    t.string "base_currency"
-    t.string "barcode_number"
+    t.string "title", null: false
+    t.string "image_url", null: false
+    t.string "type", default: "Product", null: false
+    t.decimal "base_price", precision: 8, scale: 2, null: false
+    t.string "base_currency", default: "EUR", null: false
+    t.string "barcode_number", null: false
     t.integer "num_to_buy"
     t.integer "num_will_get"
     t.integer "bulk_threshold"
-    t.integer "bulk_price"
+    t.decimal "bulk_price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "scans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "product_id"
-    t.bigint "checkout_id"
-    t.integer "quantity"
+    t.bigint "product_id", null: false
+    t.bigint "checkout_id", null: false
+    t.integer "quantity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["checkout_id"], name: "index_scans_on_checkout_id"

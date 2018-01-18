@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 # Product represents a given product whose barcode will be scanned.
+#
+# We are going to validate that:
+#
+# the base_price > 0, otherwise we run the risk of giving the shopper money. Ooh lala.
+#
 class Product < ApplicationRecord
   validates_numericality_of :base_price, greater_than_or_equal_to: 0
+  validates_presence_of :title, :image_url, :base_price, :barcode_number
 
   # Obtains a product given either the barcode number or the name. Returns nil if there is no match
   def self.retrieve_product(identifier)
@@ -13,6 +19,13 @@ class Product < ApplicationRecord
   def total_cost(quantity = 1, currency = :EUR)
     raise Exceptions::NegativeQuantity if quantity.negative?
     raise Exceptions::InvalidCurrency unless ExchangeRateService.valid_currency?(currency)
-    quantity * base_price * ExchangeRateService.exchange_rate(base_currency.to_sym, currency.to_sym)
+    quantity * price_per_unit * ExchangeRateService.exchange_rate(base_currency.to_sym, currency.to_sym)
+  end
+
+  private
+
+  # Determines the cost of the product given the amount is purchased. We don't use quantity here, but inheriters do.
+  def price_per_unit(_quantity = 1)
+    base_price
   end
 end

@@ -7,7 +7,7 @@ export default class Cart extends React.Component {
         super(props);
     }
 
-    productCards = this.props.scannedProducts.map((product) =>
+    productCards = this.props.scannedProducts && this.props.scannedProducts.map((product) =>
         <ProductCard product={product} />
     );
     render() {
