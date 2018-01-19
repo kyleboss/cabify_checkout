@@ -8,15 +8,11 @@ export default class ProductCard extends React.Component {
     render() {
         return(
             <div className='product-card'>
-                <img className='product-card__image' src={this.props.scannedProduct.imageUrl} />
-                <div className='product-card__title'>{this.props.scannedProduct.title}</div>
+                <img className='product-card__image' src={this.props.product.image_url} />
+                <div className='product-card__title'>{this.props.product.title}</div>
                 <div className='product-card__quantity-container'>
                     Quantity:
-                    <input
-                        type='number'
-                        defaultValue={this.props.scannedProduct.quantity}
-                        className='product-card__quantity'
-                    />
+                    <input type='number' value={this.props.product.quantity} className='product-card__quantity'/>
                 </div>
                 <button className='product-card__remove-button'>Remove</button>
             </div>

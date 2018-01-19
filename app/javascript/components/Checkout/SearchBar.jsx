@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import axios from 'axios';
 
 export default class SearchBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {queryValue: '', suggestions: []};
+        this.state = {queryValue: '', suggestions: [], quantity: 1};
     }
 
     fuzzySearch = function (userInput, productIdentifier) {
@@ -16,19 +17,18 @@ export default class SearchBar extends React.Component {
     };
 
     autosuggest = function(text) {
-        if (!this.props.allProducts) {
-            return [];
-        }
         let suggestions = [];
-        let fuzzySearch = this.fuzzySearch;
-        this.props.allProducts.forEach(function(product) {
-                if (fuzzySearch(text, product.title) || fuzzySearch(text, product.barcode_number)) {
-                    if (!suggestions.some(suggestion => product.title === suggestion.title)) {
-                        suggestions.push(product);
+        if (this.props.allProducts && text.length > 0) {
+            let fuzzySearch = this.fuzzySearch;
+            this.props.allProducts.forEach(function (product) {
+                    if (fuzzySearch(text, product.title) || fuzzySearch(text, product.barcode_number)) {
+                        if (!suggestions.some(suggestion => product.title === suggestion.title)) {
+                            suggestions.push(product);
+                        }
                     }
                 }
-            }
-        );
+            );
+        }
         this.setState({suggestions: suggestions});
     };
 
@@ -41,6 +41,10 @@ export default class SearchBar extends React.Component {
         this.setState({queryValue: e.target.value});
     };
 
+    onQuantityChange = function (e) {
+        this.setState({quantity: e.target.value});
+    };
+
     suggestionList = function() {
         return(this.state.suggestions.map((suggestion) =>
             <div
@@ -50,8 +54,14 @@ export default class SearchBar extends React.Component {
             >
                 {suggestion.title}
             </div>
-        )
-    );
+        ));
+    };
+
+    onScanSubmit = function(e) {
+        let isSuccess = this.props.onScanSubmit(this.state.queryValue, this.state.quantity);
+        if (isSuccess) {
+            this.setState({queryValue: '', quantity: 1});
+        }
     };
 
     render() {
@@ -63,8 +73,18 @@ export default class SearchBar extends React.Component {
                     onChange={this.onQueryChange.bind(this)}
                     placeholder='Cabify TShirt...'
                 />
-                <input className='search-bar__quantity' defaultValue='1' type='number'/>
-                <button className='search-bar__submit'>ADD</button>
+                <input
+                    className='search-bar__quantity'
+                    value={this.state.quantity}
+                    type='number'
+                    onChange={this.onQuantityChange.bind(this)}
+                />
+                <button
+                    className='search-bar__submit'
+                    onClick={this.onScanSubmit.bind(this)}
+                >
+                    ADD
+                </button>
                 <div className='autosuggestions'>{this.suggestionList()}</div>
             </div>
         );

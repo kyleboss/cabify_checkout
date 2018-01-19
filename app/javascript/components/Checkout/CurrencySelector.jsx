@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
 export default class CurrencySelector extends React.Component {
-    currencyListItems = this.props.currencies.map((currency) =>
+    currencyListItems = this.props.allCurrencies.map((currency) =>
             <li
                 className='dropdown-item'
                 key={currency.code}

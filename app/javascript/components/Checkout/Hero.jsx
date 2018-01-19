@@ -12,9 +12,9 @@ export default class Hero extends React.Component {
     render() {
         return(
             <div className='hero'>
-                <SearchBar allProducts={this.props.allProducts} />
+                <SearchBar allProducts={this.props.allProducts} onScanSubmit={this.props.onScanSubmit} />
                 <CurrencySelector
-                    currencies={this.props.currencies}
+                    allCurrencies={this.props.allCurrencies}
                     currency={this.props.currency}
                     onCurrencyChange={this.props.onCurrencyChange}
                 />

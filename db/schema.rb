@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 20180116202442) do
 
   create_table "checkouts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "currency", default: "EUR", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

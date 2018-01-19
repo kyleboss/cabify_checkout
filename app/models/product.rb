@@ -8,6 +8,8 @@
 class Product < ApplicationRecord
   validates_numericality_of :base_price, greater_than_or_equal_to: 0
   validates_presence_of :title, :image_url, :base_price, :barcode_number
+  has_many :scans
+  has_many :checkouts, through: :scans
 
   # Obtains a product given either the barcode number or the name. Returns nil if there is no match
   def self.retrieve_product(identifier)
@@ -15,10 +17,11 @@ class Product < ApplicationRecord
   end
 
   # Calculates the total cost of this product for the quantity provided for the given currency
-  def total_cost(quantity = 1, currency = :EUR)
+  def total_cost(quantity = 1, currency = :EUR, use_discount = true)
     raise Exceptions::NegativeQuantity if quantity.negative?
     raise Exceptions::InvalidCurrency unless ExchangeRateService.valid_currency?(currency)
-    quantity * price_per_unit * ExchangeRateService.exchange_rate(base_currency.to_sym, currency.to_sym)
+    ind_price = use_discount ? price_per_unit(quantity) : base_price
+    quantity * ind_price * ExchangeRateService.exchange_rate(base_currency.to_sym.upcase, currency.to_sym.upcase)
   end
 
   private

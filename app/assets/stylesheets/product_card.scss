@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
   margin: 20px;
+  max-height: 400px;
 }
 
 .product-card__quantity {
@@ -28,7 +29,7 @@
   border: 3px solid $light-gray;
   width: 130px;
   height: 130px;
-  margin: 20px 20px 10px 20px;
+  margin: 0 20px 10px 20px;
 }
 
 .product-card__remove-button {
@@ -50,6 +51,8 @@
 }
 
 .product-card__title {
-  font-size: 25px;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
   margin: 0 0 20px 0;
 }

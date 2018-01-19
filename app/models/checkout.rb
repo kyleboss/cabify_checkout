@@ -14,15 +14,19 @@ class Checkout < ApplicationRecord
   def scan(product_identifier, quantity = 1)
     product = Product.retrieve_product(product_identifier) # Turn barcode number/name to a Product object
     scan_for_product = scan_for(product)
-    update_quantity_or_create_scan(product, quantity, scan_for_product)
+    update_quantity_or_create_scan(product, quantity.to_i, scan_for_product)
+  end
+
+  def scans
+    Scan.where(checkout_id: id)
   end
 
   # Returns the total cost the shopper owes for this Checkout. It does this by taking all of the scans that were made
   # during this Checkout process & getting their respective costs. The sum of all the scans is the total.
   # If there are no sums, 0 will be returned. Also, it takes in a currency, which will be used if a physical store is
   # located outside of Cabify's country or if a shopper desires to use a different currency.
-  def total(currency = :EUR)
-    scans.sum { |s| s.total_cost(currency) }
+  def total
+    scans.sum { |s| s.total_cost(use_discount: true) }
   end
 
   private
@@ -37,6 +41,7 @@ class Checkout < ApplicationRecord
       scan_for_product = Scan.new(checkout_id: id, product_id: product&.id, quantity: quantity)
     end
     scan_for_product.save! # Takes care of unknown product or a net-negative quantity...
+    scan_for_product
   end
 
   # Finds the scan that occured during this specific Checkout for a given product. It's very possible that this

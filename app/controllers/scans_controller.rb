@@ -24,16 +24,13 @@ class ScansController < ApplicationController
   # POST /scans
   # POST /scans.json
   def create
-    @scan = Scan.new(scan_params)
+    checkout = scan_params[:checkout_id] ? Checkout.find(scan_params[:checkout_id]) : Checkout.create!
+    @scan = checkout.scan(scan_params[:product_identifier], scan_params[:quantity])
 
-    respond_to do |format|
-      if @scan.save
-        format.html { redirect_to @scan, notice: 'Scan was successfully created.' }
-        format.json { render :show, status: :created, location: @scan }
-      else
-        format.html { render :new }
-        format.json { render json: @scan.errors, status: :unprocessable_entity }
-      end
+    if @scan.save
+      render json: ScanResult.new(@scan), status: :created
+    else
+      render json: @scan.errors, status: :unprocessable_entity
     end
   end
 
@@ -70,6 +67,6 @@ class ScansController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def scan_params
-    params.require(:scan).permit(:product_id, :checkout_id)
+    params.permit(:product_id, :checkout_id, :product_identifier, :scan, :authenticity_token, :quantity)
   end
 end

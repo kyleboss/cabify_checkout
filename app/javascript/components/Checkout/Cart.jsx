@@ -3,30 +3,26 @@ import ProductCard from "./ProductCard";
 import Summary from "./Summary";
 
 export default class Cart extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    productCards = this.props.scannedProducts && this.props.scannedProducts.map((product) =>
-        <ProductCard product={product} />
-    );
+    productCards = function() {
+        return(this.props.scannedProducts && this.props.scannedProducts.map((product) =>
+            <ProductCard key={product.title} product={product} />
+        ));
+    };
     render() {
         return(
             <div>
-                {this.props.scannedProducts && this.props.scannedProducts.count() > 0 &&
+                {this.props.scannedProducts && this.props.scannedProducts.length > 0 &&
                 <div className='cart'>
                     <div className='product-cards'>
-                        {this.productCards}
+                        {this.productCards()}
                     </div>
                     <Summary
-                        scannedProducts={this.props.scannedProducts}
-                        discounts={this.props.discounts}
+                        cartSummary={this.props.cartSummary}
                         currencySymbol={this.props.currencySymbol}
-                        total={this.props.total}
                     />
                 </div>
                 }
-                {(!this.props.scannedProducts || this.props.scannedProducts.count() === 0) &&
+                {(!this.props.scannedProducts || this.props.scannedProducts.length === 0) &&
                 <div className='empty-cart-message'>
                     Scan an item to add it to the shopper's cart.
                 </div>

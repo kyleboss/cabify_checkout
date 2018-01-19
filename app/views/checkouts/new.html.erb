@@ -1,3 +1,10 @@
 <%= javascript_pack_tag 'checkout' %>
-<%= content_tag :div, id: "checkout_data", data: {allProducts: @all_products}.to_json do %>
+<%= content_tag :div,
+                id: "checkout_data",
+                data: {
+                    allProducts: @all_products,
+                    allCurrencies: @all_currencies,
+                    baseUrl: @base_url,
+                    authenticityToken: form_authenticity_token
+                }.to_json do %>
 <% end %>

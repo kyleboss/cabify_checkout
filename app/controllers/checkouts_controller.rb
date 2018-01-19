@@ -17,6 +17,8 @@ class CheckoutsController < ApplicationController
   def new
     @checkout = Checkout.new
     @all_products = Product.all.as_json
+    @all_currencies = ExchangeRateService.valid_currencies
+    @base_url = Rails.env.development? ? 'http://localhost:3000' : 'http://cabifycheckout.com'
   end
 
   # GET /checkouts/1/edit
@@ -27,28 +29,20 @@ class CheckoutsController < ApplicationController
   def create
     @checkout = Checkout.new(checkout_params)
 
-    respond_to do |format|
-      if @checkout.save
-        format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
-        format.json { render :show, status: :created, location: @checkout }
-      else
-        format.html { render :new }
-        format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      end
+    if @checkout.save
+      render json: ScanResult.new(@checkout), status: :created
+    else
+      render json: @checkout.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /checkouts/1
   # PATCH/PUT /checkouts/1.json
   def update
-    respond_to do |format|
-      if @checkout.update(checkout_params)
-        format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
-        format.json { render :show, status: :ok, location: @checkout }
-      else
-        format.html { render :edit }
-        format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      end
+    if @checkout.update(checkout_params)
+      render json: ScanResult.new(@checkout), status: :ok
+    else
+      render json: @checkout.errors, status: :unprocessable_entity
     end
   end
 
@@ -71,6 +65,6 @@ class CheckoutsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def checkout_params
-    params.require(:Checkout)
+    params.require(:checkout).permit(:currency)
   end
 end
