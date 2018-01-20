@@ -1,13 +1,12 @@
 @import 'colors';
 .search-bar {
-  width: 80%;
   height: 60px;
+  width: 100%;
   display: flex;
   margin: 0 auto;
   border: solid 2px $lavander-active;
   border-radius: 10px;
   overflow: hidden;
-  max-width: 750px;
   flex-wrap: wrap;
 }
 
@@ -83,5 +82,31 @@
 
   &:hover {
     background-color: $light-gray-active;
+  }
+}
+
+.search-bar-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 750px;
+  padding: 0 25px 0 0;
+  height: 105px;
+}
+
+.search-bar__error {
+  background-color: $grapefruit;
+  color: $light-gray;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 5px 0;
+  width: fit-content;
+  transition: all 0.2s ease;
+  top: -50px;
+  position: relative;
+  z-index: -1;
+
+  &.active-error {
+    top: 0;
   }
 }

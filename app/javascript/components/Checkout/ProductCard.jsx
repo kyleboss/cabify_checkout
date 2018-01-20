@@ -1,6 +1,13 @@
 import React from "react";
 
 export default class ProductCard extends React.Component {
+    quantities = function() {
+        return(Array.from(Array(Math.max(11, this.props.product.quantity+11)).keys()).map((quantity) =>
+            <option key={quantity} value={quantity} selected={this.props.product.quantity === quantity}>
+                {quantity}
+            </option>
+        ));
+    };
     render() {
         return(
             <div className='product-card'>
@@ -8,12 +15,12 @@ export default class ProductCard extends React.Component {
                 <div className='product-card__title'>{this.props.product.title}</div>
                 <div className='product-card__quantity-container'>
                     Quantity:
-                    <input
-                        type='number'
+                    <select
                         onChange={(e) => this.props.updateProductQuantity(this.props.product.scan_id, e.target.value)}
-                        value={this.props.product.quantity}
                         className='product-card__quantity'
-                    />
+                    >
+                        {this.quantities()}
+                    </select>
                 </div>
                 <button
                     onClick={(e) => this.props.removeProduct(this.props.product.scan_id)}

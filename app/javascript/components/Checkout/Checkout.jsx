@@ -8,7 +8,7 @@ import axios from "axios/index";
 export default class Checkout extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {currency: this.props.allCurrencies[0]};
+        this.state = {currency: this.props.allCurrencies[0], searchBarError: '', isServerError: false};
     }
 
     setCurrency(currency) {
@@ -17,21 +17,36 @@ export default class Checkout extends React.Component {
         let setCurrencyUrl;
         if (this.state.checkoutId) {
             setCurrencyUrl = `${this.props.baseUrl}/checkouts/${this.state.checkoutId}`;
-            axios.put(setCurrencyUrl, setCurrencyArgs).then((res) => this.updateCheckoutState(res, this));
+            axios.put(setCurrencyUrl, setCurrencyArgs)
+                .then((res) => this.updateCheckoutState(res, this))
+                .catch((error) => {
+                    this.setState({isServerError: true});
+                    return false;
+                });
         } else {
             setCurrencyUrl = `${this.props.baseUrl}/checkouts`;
-            axios.post(setCurrencyUrl, setCurrencyArgs).then((res) => this.updateCheckoutState(res, this));
+            axios.post(setCurrencyUrl, setCurrencyArgs)
+                .then((res) => this.updateCheckoutState(res, this))
+                .catch((error) => {
+                    this.setState({isServerError: true});
+                    return false;
+                });
         }
         return true;
     }
 
     updateCheckoutState = function(ajaxResults, obj) {
-        obj.setState({
-            scannedProducts: ajaxResults.data.scanned_products,
-            checkoutId: ajaxResults.data.checkout_id,
-            cartSummary: ajaxResults.data.cart_summary,
-            currency: ajaxResults.data.currency
-        })
+        if (ajaxResults.status >= 200 && ajaxResults.status < 300) {
+            this.setState({isServerError: false});
+            obj.setState({
+                scannedProducts: ajaxResults.data.scanned_products,
+                checkoutId: ajaxResults.data.checkout_id,
+                cartSummary: ajaxResults.data.cart_summary,
+                currency: ajaxResults.data.currency
+            })
+        } else {
+            this.setState({isServerError: true});
+        }
     };
 
     scan = function(query, quantity) {
@@ -40,7 +55,11 @@ export default class Checkout extends React.Component {
             product_identifier: query,
             quantity: quantity,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this));
+        }).then((res) => this.updateCheckoutState(res, this))
+            .catch((error) => {
+                this.setState({isServerError: true});
+                return false;
+            });
         return true;
     };
 
@@ -48,13 +67,16 @@ export default class Checkout extends React.Component {
         axios.put(`${this.props.baseUrl}/scans/${scan_id}`, {
             quantity: quantity,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this));
+        }).then((res) => this.updateCheckoutState(res, this))
+            .catch((error) => {
+                this.setState({isServerError: true});
+                return false;
+            });
         return true;
     };
 
     removeProduct = function(scan_id) {
-        axios.delete(`${this.props.baseUrl}/scans/${scan_id}?authenticity_token=${this.props.authenticityToken}`)
-            .then((res) => this.updateCheckoutState(res, this));
+        this.updateProductQuantity(scan_id, 0);
         return true;
     };
 
@@ -62,16 +84,24 @@ export default class Checkout extends React.Component {
         axios.post(`${this.props.baseUrl}/checkouts`, {
             currency: this.state.currency.code,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this));
+        }).then((res) => this.updateCheckoutState(res, this))
+            .catch((error) => {
+                this.setState({isServerError: true});
+                return false;
+            });
         return true;
     };
 
     render() {
         return(
             <div className='checkout-container'>
+                <div className={`server-error ${this.state.isServerError ? 'active-error' : ''}`}>
+                    We are sorry, something went wrong! Please try again.
+                </div>
                 <Hero
                     allCurrencies={this.props.allCurrencies}
                     currency={this.state.currency}
+                    searchBarError={this.state.searchBarError}
                     onCurrencyChange={this.setCurrency.bind(this)}
                     onScanSubmit={this.scan.bind(this)}
                     allProducts={this.props.allProducts}

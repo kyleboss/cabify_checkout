@@ -37,7 +37,8 @@ class ScansController < ApplicationController
   # PATCH/PUT /scans/1
   # PATCH/PUT /scans/1.json
   def update
-    if @scan.update({quantity: scan_params[:quantity]})
+    if (scan_params[:quantity].to_i.positive? && @scan.update(quantity: scan_params[:quantity])) ||
+       (scan_params[:quantity].to_i.zero? && @scan.destroy)
       render json: CheckoutState.new(@scan), status: :ok, location: @scan
     else
       render json: @scan.errors, status: :unprocessable_entity

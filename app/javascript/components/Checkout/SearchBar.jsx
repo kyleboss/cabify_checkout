@@ -33,16 +33,36 @@ export default class SearchBar extends React.Component {
     };
 
     setValueToSuggestion = function (text) {
-        this.setState({suggestions: [], queryValue: text})
+        this.setState({suggestions: [], queryValue: text});
+        this.validateSearchBar(this.state.quantity, text);
     };
 
     onQueryChange = function (e) {
+        let query = e.target.value;
         this.autosuggest(e.target.value);
         this.setState({queryValue: e.target.value});
+        this.validateSearchBar(this.state.quantity, query);
+    };
+
+    validateSearchBar = function(quantity, query) {
+        let searchBarError = undefined;
+        if (isNaN(quantity)) {
+            searchBarError = 'Quantity must be a number';
+        } else if (quantity < 1) {
+            searchBarError = 'Quantity must be at least 1';
+        } else if (this.props.allProducts.findIndex(product => product.title === query || product.barcodeNumber === query) < 0) {
+            searchBarError = 'Hmm...We are not able to find that product!';
+        } else {
+            this.setState({searchBarError: undefined});
+        }
+        this.setState({searchBarError: searchBarError});
+        return !searchBarError;
     };
 
     onQuantityChange = function (e) {
-        this.setState({quantity: e.target.value});
+        let quantity = e.target.value;
+        this.setState({quantity: quantity});
+        this.validateSearchBar(quantity, this.state.queryValue);
     };
 
     suggestionList = function() {
@@ -58,34 +78,47 @@ export default class SearchBar extends React.Component {
     };
 
     onScanSubmit = function(e) {
-        let isSuccess = this.props.onScanSubmit(this.state.queryValue, this.state.quantity);
-        if (isSuccess) {
-            this.setState({queryValue: '', quantity: 1});
+        this.setState({scanAttempted: true});
+        if (this.validateSearchBar(this.state.quantity, this.state.queryValue)) {
+            let isSuccess = this.props.onScanSubmit(this.state.queryValue, this.state.quantity);
+            if (isSuccess) {
+                this.setState({queryValue: '', quantity: 1});
+                this.setState({scanAttempted: false});
+            }
         }
+    };
+
+    showSearchError = function() {
+        return this.state.searchBarError && this.state.scanAttempted;
     };
 
     render() {
         return (
-            <div className='search-bar'>
-                <input
-                    className='search-bar__query'
-                    value={this.state.queryValue}
-                    onChange={this.onQueryChange.bind(this)}
-                    placeholder='Cabify TShirt...'
-                />
-                <input
-                    className='search-bar__quantity'
-                    value={this.state.quantity}
-                    type='number'
-                    onChange={this.onQuantityChange.bind(this)}
-                />
-                <button
-                    className='search-bar__submit'
-                    onClick={this.onScanSubmit.bind(this)}
-                >
-                    ADD
-                </button>
-                <div className='autosuggestions'>{this.suggestionList()}</div>
+            <div className='search-bar-container'>
+                <div className='search-bar'>
+                    <input
+                        className='search-bar__query'
+                        value={this.state.queryValue}
+                        onChange={this.onQueryChange.bind(this)}
+                        placeholder='Cabify TShirt...'
+                    />
+                    <input
+                        className='search-bar__quantity'
+                        value={this.state.quantity}
+                        type='number'
+                        onChange={this.onQuantityChange.bind(this)}
+                    />
+                    <button
+                        className='search-bar__submit'
+                        onClick={this.onScanSubmit.bind(this)}
+                    >
+                        ADD
+                    </button>
+                    <div className='autosuggestions'>{this.suggestionList()}</div>
+                </div>
+                <div className={`search-bar__error ${this.showSearchError() ? 'active-error' : ''}`}>
+                    {this.state.searchBarError}
+                </div>
             </div>
         );
     }
