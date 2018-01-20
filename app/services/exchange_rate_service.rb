@@ -7,13 +7,15 @@ class ExchangeRateService
   end
 
   def self.valid_currency?(currency)
-    currency.downcase.to_sym.in?(valid_currencies.map do |currency|
-      currency[:code]
-    end)
+    currency_symbol_mappings[currency.downcase.to_sym]
+  end
+
+  def self.currency_symbol_mappings
+    @_currency_symbol_mappings = { eur: '€', usd: '$', gbp: '£' }
   end
 
   def self.valid_currencies
-    @_valid_currencies ||= [{ code: :eur, symbol: '€' }, { code: :usd, symbol: '$' }, { code: :gbp, symbol: '£' }]
+    @_valid_currencies ||= currency_symbol_mappings.map { |c, s| { code: c, symbol: s } }
   end
 
   private_class_method

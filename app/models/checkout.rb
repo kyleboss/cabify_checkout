@@ -17,6 +17,7 @@ class Checkout < ApplicationRecord
     update_quantity_or_create_scan(product, quantity.to_i, scan_for_product)
   end
 
+  # Get all the scans for a Checkout.
   def scans
     Scan.where(checkout_id: id)
   end
@@ -26,7 +27,7 @@ class Checkout < ApplicationRecord
   # If there are no sums, 0 will be returned. Also, it takes in a currency, which will be used if a physical store is
   # located outside of Cabify's country or if a shopper desires to use a different currency.
   def total
-    scans.sum { |s| s.total_cost(use_discount: true) }
+    scans.sum { |s| s.total_cost(apply_discount: true) }
   end
 
   private

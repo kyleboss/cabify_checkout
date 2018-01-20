@@ -30,7 +30,7 @@ class CheckoutsController < ApplicationController
     @checkout = Checkout.new(checkout_params)
 
     if @checkout.save
-      render json: ScanResult.new(@checkout), status: :created
+      render json: CheckoutState.new(@checkout), status: :created
     else
       render json: @checkout.errors, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class CheckoutsController < ApplicationController
   # PATCH/PUT /checkouts/1.json
   def update
     if @checkout.update(checkout_params)
-      render json: ScanResult.new(@checkout), status: :ok
+      render json: CheckoutState.new(@checkout), status: :ok
     else
       render json: @checkout.errors, status: :unprocessable_entity
     end

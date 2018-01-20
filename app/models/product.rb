@@ -17,10 +17,10 @@ class Product < ApplicationRecord
   end
 
   # Calculates the total cost of this product for the quantity provided for the given currency
-  def total_cost(quantity = 1, currency = :EUR, use_discount = true)
+  def total_cost(quantity = 1, currency = :EUR, apply_discount = true)
     raise Exceptions::NegativeQuantity if quantity.negative?
     raise Exceptions::InvalidCurrency unless ExchangeRateService.valid_currency?(currency)
-    ind_price = use_discount ? price_per_unit(quantity) : base_price
+    ind_price = apply_discount ? price_per_unit(quantity) : base_price
     quantity * ind_price * ExchangeRateService.exchange_rate(base_currency.to_sym.upcase, currency.to_sym.upcase)
   end
 

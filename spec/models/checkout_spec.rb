@@ -105,7 +105,7 @@ describe Checkout do
     let(:scan2) { FactoryBot.build_stubbed(:scan, quantity: 4) }
     let(:scan3) { FactoryBot.build_stubbed(:scan, quantity: 9) }
     before(:each) { allow(checkout).to receive(:scans) { scans } }
-    subject { checkout.total(:USD) }
+    subject { checkout.total }
 
     context 'scans are empty' do
       let(:scans) { [] }
@@ -114,10 +114,10 @@ describe Checkout do
 
     context 'scans are not empty' do
       it "calls all of the scan's total_cost methods" do
-        expect(scan1).to receive(:total_cost).with(:USD) { 12 }
-        expect(scan2).to receive(:total_cost).with(:USD) { 2 }
-        expect(scan3).to receive(:total_cost).with(:USD) { 0 }
-        checkout.total(:USD)
+        expect(scan1).to receive(:total_cost) { 12 }
+        expect(scan2).to receive(:total_cost) { 2 }
+        expect(scan3).to receive(:total_cost) { 0 }
+        checkout.total
       end
       it "sums up all of the scan's total_cost methods" do
         allow(scan1).to receive(:total_cost) { 12 }
@@ -126,6 +126,14 @@ describe Checkout do
         checkout.total
         expect(subject).to eq 14
       end
+    end
+  end
+
+  describe '#scans' do
+    let(:checkout) { FactoryBot.create(:checkout) }
+    let(:scan) { FactoryBot.create(:scan, checkout_id: checkout&.id, quantity: 1) }
+    it 'returns all of the scans that belong to the checkout' do
+      expect(checkout.scans).to eq [scan]
     end
   end
 end

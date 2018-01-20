@@ -10,6 +10,6 @@ FactoryBot.define do
   end
 
   factory :scan_bulk_product, parent: :scan do
-    product { FactoryBot.build(:buld_product) }
+    product { FactoryBot.build(:bulk_product) }
   end
 end

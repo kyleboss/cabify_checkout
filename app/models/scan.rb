@@ -11,11 +11,12 @@ class Scan < ApplicationRecord
   validates_numericality_of :quantity, only_integer: true, greater_than: 0
 
   # Calculates the total cost of this scan. Generally will be called by Checkout#total
-  def total_cost(use_discount: true)
-    product.total_cost(quantity, checkout.currency, use_discount)
+  def total_cost(apply_discount: true)
+    product.total_cost(quantity, checkout.currency, apply_discount)
   end
 
+  # Calculates the amount of money the shopper saved because of the discounts being used.
   def discount_total
-    total_cost(use_discount: false) - total_cost(use_discount: true)
+    total_cost(apply_discount: false) - total_cost(apply_discount: true)
   end
 end

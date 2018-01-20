@@ -28,7 +28,7 @@ class ScansController < ApplicationController
     @scan = checkout.scan(scan_params[:product_identifier], scan_params[:quantity])
 
     if @scan.save
-      render json: ScanResult.new(@scan), status: :created
+      render json: CheckoutState.new(@scan), status: :created
     else
       render json: @scan.errors, status: :unprocessable_entity
     end
