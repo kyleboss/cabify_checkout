@@ -1,10 +1,6 @@
 import React from "react";
 
 export default class Summary extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     scannedProductSections = function() {
         return(this.props.cartSummary.charges.map((product) =>
             <div key={product.title} className='summary__product summary_section'>
@@ -37,7 +33,7 @@ export default class Summary extends React.Component {
                         {this.props.cartSummary.total} {this.props.currencySymbol}
                     </div>
                 </div>
-                <button className='summary__checkout-button'>Checkout</button>
+                <button onClick={this.props.checkout} className='summary__checkout-button'>Checkout</button>
             </div>
         );
     };

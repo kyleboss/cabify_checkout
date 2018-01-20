@@ -44,6 +44,28 @@ export default class Checkout extends React.Component {
         return true;
     };
 
+    updateProductQuantity = function(scan_id, quantity) {
+        axios.put(`${this.props.baseUrl}/scans/${scan_id}`, {
+            quantity: quantity,
+            authenticity_token: this.props.authenticityToken
+        }).then((res) => this.updateCheckoutState(res, this));
+        return true;
+    };
+
+    removeProduct = function(scan_id) {
+        axios.delete(`${this.props.baseUrl}/scans/${scan_id}?authenticity_token=${this.props.authenticityToken}`)
+            .then((res) => this.updateCheckoutState(res, this));
+        return true;
+    };
+
+    checkout = function() {
+        axios.post(`${this.props.baseUrl}/checkouts`, {
+            currency: this.state.currency.code,
+            authenticity_token: this.props.authenticityToken
+        }).then((res) => this.updateCheckoutState(res, this));
+        return true;
+    };
+
     render() {
         return(
             <div className='checkout-container'>
@@ -58,6 +80,9 @@ export default class Checkout extends React.Component {
                     currencySymbol={this.state.currency.symbol}
                     cartSummary={this.state.cartSummary}
                     scannedProducts={this.state.scannedProducts}
+                    updateProductQuantity={this.updateProductQuantity.bind(this)}
+                    removeProduct={this.removeProduct.bind(this)}
+                    checkout={this.checkout.bind(this)}
                 />
             </div>
         );

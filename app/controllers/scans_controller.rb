@@ -37,25 +37,19 @@ class ScansController < ApplicationController
   # PATCH/PUT /scans/1
   # PATCH/PUT /scans/1.json
   def update
-    respond_to do |format|
-      if @scan.update(scan_params)
-        format.html { redirect_to @scan, notice: 'Scan was successfully updated.' }
-        format.json { render :show, status: :ok, location: @scan }
-      else
-        format.html { render :edit }
-        format.json { render json: @scan.errors, status: :unprocessable_entity }
-      end
+    if @scan.update({quantity: scan_params[:quantity]})
+      render json: CheckoutState.new(@scan), status: :ok, location: @scan
+    else
+      render json: @scan.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /scans/1
   # DELETE /scans/1.json
   def destroy
+    checkout = @scan.checkout
     @scan.destroy
-    respond_to do |format|
-      format.html { redirect_to scans_url, notice: 'Scan was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render json: CheckoutState.new(checkout), status: :ok, location: @scan
   end
 
   private

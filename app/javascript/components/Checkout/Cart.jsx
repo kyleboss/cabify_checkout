@@ -5,7 +5,12 @@ import Summary from "./Summary";
 export default class Cart extends React.Component {
     productCards = function() {
         return(this.props.scannedProducts && this.props.scannedProducts.map((product) =>
-            <ProductCard key={product.title} product={product} />
+            <ProductCard
+                key={product.title}
+                product={product}
+                updateProductQuantity={this.props.updateProductQuantity}
+                removeProduct={this.props.removeProduct}
+            />
         ));
     };
     render() {
@@ -19,6 +24,7 @@ export default class Cart extends React.Component {
                     <Summary
                         cartSummary={this.props.cartSummary}
                         currencySymbol={this.props.currencySymbol}
+                        checkout={this.props.checkout}
                     />
                 </div>
                 }

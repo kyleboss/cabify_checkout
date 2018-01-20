@@ -76,19 +76,23 @@ describe CheckoutState do
     let(:product) { FactoryBot.build_stubbed(:product, title: 'Cabify Mug') }
     let(:scan) { FactoryBot.build_stubbed(:scan, quantity: 2, product: product) }
     subject { checkout_state.send(:all_charges, [scan]) }
+
     before(:each) do
       expect(scan).to receive(:total_cost).with(apply_discount: false) { 5.0 }
       expect(checkout_state).to receive(:priceify_number).with(5.0) { 5.00 }
     end
+
     it { is_expected.to eq [{ title: 'Cabify Mug', quantity: 2, amount: 5.00 }] }
   end
 
   describe '#all_discounts' do
     let(:scan) { FactoryBot.build_stubbed(:scan) }
     subject { checkout_state.send(:all_discounts, [scan]) }
+
     context 'Product is not a discounted product type' do
       it { is_expected.to eq [] }
     end
+
     context 'Product is a discount product type' do
       let(:scan) { FactoryBot.build_stubbed(:scan_bulk_product) }
       before(:each) { expect(scan).to receive(:discount_total) { discount_total } }
@@ -113,17 +117,20 @@ describe CheckoutState do
   describe '#discount_title' do
     subject { checkout_state.send(:discount_title, scan) }
     let(:scan) { FactoryBot.build_stubbed(:scan, product: product) }
+
     context 'Product type is a Buy X Get X item' do
       let(:product) { FactoryBot.build_stubbed(:buy_x_get_x_product, title: 'Product', num_to_buy: 2, num_will_get: 1) }
       it { is_expected.to eq 'Buy 2 Products Get 1' }
     end
+
     context 'Product type is a Bulk item' do
       let(:product) { FactoryBot.build_stubbed(:bulk_product, title: 'Product') }
       it { is_expected.to eq 'Product Bulk Purchase' }
     end
   end
+
   describe '#priceify_number' do
     subject { checkout_state.send(:priceify_number, 9) }
-    it { is_expected.to eq "9.00" }
+    it { is_expected.to eq '9.00' }
   end
 end
