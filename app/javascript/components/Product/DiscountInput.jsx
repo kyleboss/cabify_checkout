@@ -2,39 +2,26 @@ import React from "react";
 import InputSet from "./InputSet";
 
 export default class DiscountInput extends React.Component {
-    defaultInputClasses = {
-        container: 'discounts__input-container',
-        label: 'discounts__input-label',
-        input: 'discounts__input discounts__input-text'
+    createInputSet = function(label, placeholder, propertyName, value, type = 'text') {
+      return(<InputSet
+          containerClass='discounts__input-container'
+          labelClass='discounts__input-label'
+          inputClass='discounts__input discounts__input-text'
+          label={label}
+          placeholder={placeholder}
+          propertyName={propertyName}
+          value={value}
+          type={type}
+      />)
     };
 
     firstInput = function() {
         return(
             <div>
-            {this.props.product.type === 'BuyXGetXProduct' &&
-                <InputSet
-                    containerClass={this.defaultInputClasses.container}
-                    labelClass={this.defaultInputClasses.label}
-                    inputClass={this.defaultInputClasses.input}
-                    label='Buy'
-                    placeholder='5...'
-                    propertyName='numToBuy'
-                    value={this.props.product.numToBuy}
-                    type='number'
-                />
-                }
+                {this.props.product.type === 'BuyXGetXProduct' &&
+                this.createInputSet('Buy', '5...', 'numToBuy', this.props.product.numToBuy, 'number')}
                 {this.props.product.type === 'BulkProduct' &&
-                    <InputSet
-                        containerClass={this.defaultInputClasses.container}
-                        labelClass={this.defaultInputClasses.label}
-                        inputClass={this.defaultInputClasses.input}
-                        label='Threshold'
-                        placeholder='5...'
-                        propertyName='bulkThreshold'
-                        value={this.props.product.bulkThreshold}
-                        type='number'
-                    />
-                }
+                this.createInputSet('Threshold', '5...', 'bulkThreshold', this.props.product.bulkThreshold, 'number')}
             </div>
         );
     };
@@ -43,28 +30,9 @@ export default class DiscountInput extends React.Component {
         return(
             <div>
                 {this.props.product.type === 'BuyXGetXProduct' &&
-                    <InputSet
-                        containerClass={this.defaultInputClasses.container}
-                        labelClass={this.defaultInputClasses.label}
-                        inputClass={this.defaultInputClasses.input}
-                        label='Get'
-                        placeholder='3...'
-                        propertyName='numWillGet'
-                        value={this.props.product.numWillGet}
-                        type='number'
-                    />
-                }
+                this.createInputSet('Get', '3...', 'numWillGet', this.props.product.numWillGet, 'number')}
                 {this.props.product.type === 'BulkProduct' &&
-                    <InputSet
-                        containerClass={this.defaultInputClasses.container}
-                        labelClass={this.defaultInputClasses.label}
-                        inputClass={this.defaultInputClasses.input}
-                        label='Bulk price'
-                        placeholder='1.99...'
-                        propertyName='bulkPrice'
-                        value={this.props.product.bulkPrice}
-                    />
-                }
+                this.createInputSet('Bulk price', '1.99...', 'bulkPrice', this.props.product.bulkPrice)}
             </div>
 
         );

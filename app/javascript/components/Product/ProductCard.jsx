@@ -28,40 +28,26 @@ export default class ProductCard extends React.Component {
         )].symbol);
     };
 
-    defaultInputClasses = { container: 'product-card__input-container', label: 'product-card__input-label' };
+    createInputSet = function(label, placeholder, propertyName, value, inputClass) {
+        return(<InputSet
+            containerClass='product-card__input-container'
+            labelClass='product-card__input-label'
+            inputClass={`product-card__input product-card__${inputClass}`}
+            label={label}
+            placeholder={placeholder}
+            propertyName={propertyName}
+            value={value}
+        />)
+    };
 
     render() {
         return(
             <div className='product-card'>
-                <InputSet
-                    containerClass={this.defaultInputClasses.container}
-                    labelClass={this.defaultInputClasses.label}
-                    inputClass='product-card__input product-card__title'
-                    label='Title'
-                    placeholder='T-Shirt...'
-                    propertyName='title'
-                    value={this.state.product.title}
-                />
+                {this.createInputSet('Title', 'T-Shirt...', 'title', this.state.product.title, 'title')}
                 <img className='product-card__image' src={this.state.product.imageUrl} />
-                <InputSet
-                    containerClass={this.defaultInputClasses.container}
-                    labelClass={this.defaultInputClasses.label}
-                    inputClass='product-card__input product-card__image-url'
-                    label='Image URL'
-                    placeholder='http://www....'
-                    propertyName='imageUrl'
-                    value={this.state.product.imageUrl}
-                />
+                {this.createInputSet('Image URL', 'http://...', 'imageUrl', this.state.product.imageUrl, 'image-url')}
                 <div className='product-card__input-price'>
-                    <InputSet
-                        containerClass='product-card__input-container'
-                        labelClass='product-card__input-label'
-                        inputClass='product-card__input product-card__base-price'
-                        label='Price'
-                        placeholder='8.99...'
-                        propertyName='basePrice'
-                        value={this.state.product.basePrice}
-                    />
+                    {this.createInputSet('Price', '8.99...', 'basePrice', this.state.product.basePrice, 'base-price')}
                     <div className='product-card__input-container'>
                         <div className='product-card__input-label'>Currency</div>
                         <select
