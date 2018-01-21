@@ -1,6 +1,7 @@
 import React from "react";
 import DiscountInput from "./DiscountInput";
 import ActionButtons from "./ActionButtons";
+import InputSet from "./InputSet";
 
 export default class ProductCard extends React.Component {
     constructor(props) {
@@ -27,40 +28,32 @@ export default class ProductCard extends React.Component {
         )].symbol);
     };
 
-    defaultImageUrl = 'https://s3-us-west-2.amazonaws.com/kyleboss.com/cabify/cart.png';
-
     render() {
         return(
             <div className='product-card'>
-                <div className='product-card__input-container'>
-                    <div className='product-card__input-label'>Title</div>
-                    <input
-                        className='product-card__input product-card__title'
-                        placeholder='Product title'
-                        onChange={(e) => this.updateProductProperty(e, 'title')}
-                        value={this.state.product.title}
-                    />
-                </div>
-                <img className='product-card__image' src={this.state.product.image_url || this.defaultImageUrl} />
-                <div className='product-card__input-container'>
-                    <div className='product-card__input-label'>Image URL</div>
-                    <input
-                        className='product-card__input product-card__image-url'
-                        placeholder='Image URL'
-                        onChange={(e) => this.updateProductProperty(e, 'imageUrl')}
-                        value={this.state.product.image_url}
-                    />
-                </div>
+                <InputSet
+                    inputClass='title'
+                    label='Title'
+                    placeholder='T-Shirt...'
+                    propertyName='title'
+                    value={this.state.product.title}
+                />
+                <img className='product-card__image' src={this.state.product.imageUrl} />
+                <InputSet
+                    inputClass='image-url'
+                    label='Image URL'
+                    placeholder='http://www....'
+                    propertyName='imageUrl'
+                    value={this.state.product.imageUrl}
+                />
                 <div className='product-card__input-price'>
-                    <div className='product-card__input-container'>
-                        <div className='product-card__input-label'>Price</div>
-                        <input
-                            className='product-card__input product-card__base-price'
-                            placeholder='Price'
-                            onChange={(e) => this.updateProductProperty(e, 'basePrice')}
-                            value={this.state.product.basePrice}
-                        />
-                    </div>
+                    <InputSet
+                        inputClass='base-price'
+                        label='Price'
+                        placeholder='8.99...'
+                        propertyName='basePrice'
+                        value={this.state.product.basePrice}
+                    />
                     <div className='product-card__input-container'>
                         <div className='product-card__input-label'>Currency</div>
                         <select

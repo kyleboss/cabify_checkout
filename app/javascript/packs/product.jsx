@@ -7,12 +7,14 @@ import Product from "../components/Product/Product";
 document.addEventListener('DOMContentLoaded', () => {
     const node = document.getElementById('product_data');
     const data = JSON.parse(node.getAttribute('data'));
+    const defaultImageUrl = 'https://s3-us-west-2.amazonaws.com/kyleboss.com/cabify/cart.png';
     data.allProducts.forEach((product) => {
         let bulk_price = product.bulk_price;
         product.numToBuy = product.num_to_buy || 2;
         product.numWillGet = product.num_will_get || 1;
         product.basePrice = parseFloat(product.base_price).toFixed(2);
         product.baseCurrency = product.base_currency;
+        product.imageUrl = product.image_url || defaultImageUrl;
         product.bulkPrice = (!bulk_price || isNaN(bulk_price)) ? product.basePrice : parseFloat(bulk_price).toFixed(2);
         product.bulkThreshold = product.bulk_threshold || 10;
         product.num_will_get = undefined;
