@@ -1,5 +1,6 @@
 import React from "react";
 import DiscountInput from "./DiscountInput";
+import ActionButtons from "./ActionButtons";
 
 export default class ProductCard extends React.Component {
     constructor(props) {
@@ -26,6 +27,8 @@ export default class ProductCard extends React.Component {
         )].symbol);
     };
 
+    defaultImageUrl = 'https://s3-us-west-2.amazonaws.com/kyleboss.com/cabify/cart.png';
+
     render() {
         return(
             <div className='product-card'>
@@ -38,7 +41,7 @@ export default class ProductCard extends React.Component {
                         value={this.state.product.title}
                     />
                 </div>
-                <img className='product-card__image' src={this.state.product.image_url} />
+                <img className='product-card__image' src={this.state.product.image_url || this.defaultImageUrl} />
                 <div className='product-card__input-container'>
                     <div className='product-card__input-label'>Image URL</div>
                     <input
@@ -73,20 +76,11 @@ export default class ProductCard extends React.Component {
                     product={this.state.product}
                     updateProductProperty={this.updateProductProperty.bind(this)}
                 />
-                <div className='product-card__action-buttons'>
-                    <button
-                        className='product-card__save-button'
-                        onChange={(e) => this.props.saveProduct(this.state.product)}
-                    >
-                        Save
-                    </button>
-                    <button
-                        onClick={(e) => this.props.removeProduct(this.state.product.id)}
-                        className='product-card__remove-button'
-                    >
-                        Remove
-                    </button>
-                </div>
+                <ActionButtons
+                    saveProduct={this.props.saveProduct}
+                    removeProduct={this.props.removeProduct}
+                    product={this.state.product}
+                />
             </div>
         );
     };

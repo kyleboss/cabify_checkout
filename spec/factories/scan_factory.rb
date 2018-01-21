@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :scan do
-    quantity { Faker::Number.digit }
+    quantity { Faker::Number.between(1, 100) }
     checkout
     product
   end

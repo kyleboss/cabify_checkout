@@ -1,0 +1,14 @@
+@import 'colors';
+
+@mixin placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}
+}
+
+@include placeholder {
+  color: $light-gray;
+  font-style: italic;
+  font-weight: 200;
+}

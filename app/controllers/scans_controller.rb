@@ -1,26 +1,8 @@
 # frozen_string_literal: true
 
+# Controller for scans. Typically will only be called from React.
 class ScansController < ApplicationController
-  before_action :set_scan, only: %i[show edit update destroy]
-
-  # GET /scans
-  # GET /scans.json
-  def index
-    @scans = Scan.all
-  end
-
-  # GET /scans/1
-  # GET /scans/1.json
-  def show; end
-
-  # GET /scans/new
-  def new
-    @scan = Scan.new
-  end
-
-  # GET /scans/1/edit
-  def edit; end
-
+  before_action :set_scan, only: %i[update destroy]
   # POST /scans
   # POST /scans.json
   def create

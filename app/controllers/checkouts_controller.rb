@@ -1,17 +1,7 @@
 # frozen_string_literal: true
 
 class CheckoutsController < ApplicationController
-  before_action :set_checkout, only: %i[show edit update destroy]
-
-  # GET /checkouts
-  # GET /checkouts.json
-  def index
-    @checkouts = Checkout.all
-  end
-
-  # GET /checkouts/1
-  # GET /checkouts/1.json
-  def show; end
+  before_action :set_checkout, only: :update
 
   # GET /checkouts/new
   def new
@@ -20,9 +10,6 @@ class CheckoutsController < ApplicationController
     @base_url = Rails.env.development? ? 'http://localhost:3000' : 'http://cabifycheckout.com'
     @all_currencies = ExchangeRateService.valid_currencies
   end
-
-  # GET /checkouts/1/edit
-  def edit; end
 
   # POST /checkouts
   # POST /checkouts.json
@@ -43,16 +30,6 @@ class CheckoutsController < ApplicationController
       render json: CheckoutState.new(@checkout), status: :ok
     else
       render json: @checkout.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /checkouts/1
-  # DELETE /checkouts/1.json
-  def destroy
-    @checkout.destroy
-    respond_to do |format|
-      format.html { redirect_to checkouts_url, notice: 'Checkout was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

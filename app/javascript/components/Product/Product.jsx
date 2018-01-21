@@ -11,11 +11,20 @@ export default class Product extends React.Component {
         ));
     };
 
+    emptyProductCard = <ProductCard
+        allCurrencies={this.props.allCurrencies}
+        key={-1}
+        product={{baseCurrency: 'EUR', numToBuy: 2, numWillGet: 1, bulkThreshold: 10, bulkPrice: '10.00', id: -1}}
+    />;
+
     render() {
         return(
             <div className='products-container'>
                 <h1 className='products-title'>Cabify Administration</h1>
-                <div className='products-cards-container'>{this.productCards()}</div>
+                <div className='products-cards-container'>
+                    {this.productCards()}
+                    {this.emptyProductCard}
+                </div>
             </div>
         );
     }

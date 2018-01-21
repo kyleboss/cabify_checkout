@@ -41,7 +41,6 @@ class Checkout < ApplicationRecord
     else
       scan_for_product = Scan.new(checkout_id: id, product_id: product&.id, quantity: quantity)
     end
-    scan_for_product.save! # Takes care of unknown product or a net-negative quantity...
     scan_for_product
   end
 

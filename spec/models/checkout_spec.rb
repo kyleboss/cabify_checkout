@@ -40,13 +40,6 @@ describe Checkout do
       end
     end
 
-    context 'quantity makes the total quantity of scan negative' do
-      let(:quantity) { -3 }
-      it 'throws an InvalidActiveRecord Exception' do
-        expect { subject }.to raise_exception(ActiveRecord::RecordInvalid)
-      end
-    end
-
     context 'within the current checkout, this product has already been scanned' do
       it 'adds increases the quantity of the existing scan by quantity' do
         checkout.send(:update_quantity_or_create_scan, product, quantity, scan)

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+# Products controller is mostly used by the Admin Panel to see all products, update, destroy, & add new ones.
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: %i[update destroy]
 
   # GET /products
   # GET /products.json
@@ -10,18 +11,6 @@ class ProductsController < ApplicationController
     @all_currencies = ExchangeRateService.valid_currencies
     @base_url = Rails.env.development? ? 'http://localhost:3000' : 'http://cabifycheckout.com'
   end
-
-  # GET /products/1
-  # GET /products/1.json
-  def show; end
-
-  # GET /products/new
-  def new
-    @product = Product.new
-  end
-
-  # GET /products/1/edit
-  def edit; end
 
   # POST /products
   # POST /products.json

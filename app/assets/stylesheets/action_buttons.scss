@@ -1,0 +1,35 @@
+@import 'colors';
+
+.action-buttons {
+  display: flex;
+  width: 100%;
+}
+
+.action-buttons__remove,
+.action-buttons__save {
+  padding: 5px 10px;
+  outline: none;
+  margin: 35px 5px 0 5px;
+  font-size: 20px;
+  color: $light-gray;
+  border: 1px solid $light-gray;
+  transition: all .2s ease;
+  cursor: pointer;
+  width: 100%;
+  flex: 1;
+  border-radius: 5px;
+}
+
+.action-buttons__remove {
+  background-color: $grapefruit;
+  &:hover {
+    background-color: $grapefruit-active;
+  }
+}
+
+.action-buttons__save {
+  background-color: $grass-active;
+  &:hover {
+    background-color: $grass;
+  }
+}
