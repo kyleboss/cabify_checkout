@@ -24,6 +24,10 @@ class Product < ApplicationRecord
     quantity * ind_price * ExchangeRateService.exchange_rate(base_currency.to_sym.upcase, currency.to_sym.upcase)
   end
 
+  def as_json(options = {})
+    super(options.merge(methods: :type))
+  end
+
   private
 
   # Determines the cost of the product given the amount is purchased. We don't use quantity here, but inheriters do.

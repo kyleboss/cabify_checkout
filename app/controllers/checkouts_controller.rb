@@ -17,8 +17,8 @@ class CheckoutsController < ApplicationController
   def new
     @checkout = Checkout.new
     @all_products = Product.all.as_json
-    @all_currencies = ExchangeRateService.valid_currencies
     @base_url = Rails.env.development? ? 'http://localhost:3000' : 'http://cabifycheckout.com'
+    @all_currencies = ExchangeRateService.valid_currencies
   end
 
   # GET /checkouts/1/edit

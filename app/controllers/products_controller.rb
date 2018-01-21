@@ -6,7 +6,9 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @all_products = Product.all.as_json
+    @all_currencies = ExchangeRateService.valid_currencies
+    @base_url = Rails.env.development? ? 'http://localhost:3000' : 'http://cabifycheckout.com'
   end
 
   # GET /products/1

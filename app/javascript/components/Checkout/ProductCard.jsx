@@ -17,7 +17,7 @@ export default class ProductCard extends React.Component {
                     Quantity:
                     <select
                         onChange={(e) => this.props.updateProductQuantity(this.props.product.scan_id, e.target.value)}
-                        className='product-card__quantity'
+                        className='product-card__input product-card__quantity'
                     >
                         {this.quantities()}
                     </select>
