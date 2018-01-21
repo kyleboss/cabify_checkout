@@ -66,7 +66,7 @@ RSpec.describe ScansController, type: :controller do
     end
 
     context 'with invalid params' do
-      it "not be successful" do
+      it 'not be successful' do
         post :create, params: { scan: invalid_attributes }, session: valid_session
         expect(response).to_not be_success
       end
