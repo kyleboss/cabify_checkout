@@ -1,28 +1,38 @@
 import React from "react";
+import InputSet from "./InputSet";
 
 export default class DiscountInput extends React.Component {
+    defaultInputClasses = {
+        container: 'discounts__input-container',
+        label: 'discounts__input-label',
+        input: 'discounts__input discounts__input-text'
+    };
 
     firstInput = function() {
         return(
-            <div className='discounts__input-container'>
-                <div className='discounts__input-label'>
-                    { this.props.product.type === 'BuyXGetXProduct' && `Buy` }
-                    { this.props.product.type === 'BulkProduct' && `Threshold` }
-                </div>
-                {this.props.product.type === 'BuyXGetXProduct' &&
-                <input
-                    type='number'
-                    onChange={(e) => this.props.updateProductProperty(e, 'numToBuy')}
-                    className='discounts__input discounts__input-text'
+            <div>
+            {this.props.product.type === 'BuyXGetXProduct' &&
+                <InputSet
+                    containerClass={this.defaultInputClasses.container}
+                    labelClass={this.defaultInputClasses.label}
+                    inputClass={this.defaultInputClasses.input}
+                    label='Buy'
+                    placeholder='5...'
+                    propertyName='numToBuy'
                     value={this.props.product.numToBuy}
+                    type='number'
                 />
                 }
                 {this.props.product.type === 'BulkProduct' &&
-                    <input
-                        type='number'
-                        onChange={(e) => this.props.updateProductProperty(e, 'bulkThreshold')}
-                        className='discounts__input discounts__input-text'
+                    <InputSet
+                        containerClass={this.defaultInputClasses.container}
+                        labelClass={this.defaultInputClasses.label}
+                        inputClass={this.defaultInputClasses.input}
+                        label='Threshold'
+                        placeholder='5...'
+                        propertyName='bulkThreshold'
                         value={this.props.product.bulkThreshold}
+                        type='number'
                     />
                 }
             </div>
@@ -31,27 +41,32 @@ export default class DiscountInput extends React.Component {
 
     secondInput = function() {
         return(
-            <div className='discounts__input-container'>
-                <div className='discounts__input-label'>
-                    { this.props.product.type === 'BuyXGetXProduct' && `Get` }
-                    { this.props.product.type === 'BulkProduct' && `Bulk price` }
-                </div>
+            <div>
                 {this.props.product.type === 'BuyXGetXProduct' &&
-                    <input
-                        type='number'
-                        onChange={(e) => this.props.updateProductProperty(e, 'numWillGet')}
-                        className='discounts__input discounts__input-text'
+                    <InputSet
+                        containerClass={this.defaultInputClasses.container}
+                        labelClass={this.defaultInputClasses.label}
+                        inputClass={this.defaultInputClasses.input}
+                        label='Get'
+                        placeholder='3...'
+                        propertyName='numWillGet'
                         value={this.props.product.numWillGet}
+                        type='number'
                     />
                 }
                 {this.props.product.type === 'BulkProduct' &&
-                    <input
-                        onChange={(e) => this.props.updateProductProperty(e, 'bulkPrice')}
-                        className='discounts__input discounts__input-text'
+                    <InputSet
+                        containerClass={this.defaultInputClasses.container}
+                        labelClass={this.defaultInputClasses.label}
+                        inputClass={this.defaultInputClasses.input}
+                        label='Bulk price'
+                        placeholder='1.99...'
+                        propertyName='bulkPrice'
                         value={this.props.product.bulkPrice}
                     />
                 }
             </div>
+
         );
     };
 

@@ -28,11 +28,15 @@ export default class ProductCard extends React.Component {
         )].symbol);
     };
 
+    defaultInputClasses = { container: 'product-card__input-container', label: 'product-card__input-label' };
+
     render() {
         return(
             <div className='product-card'>
                 <InputSet
-                    inputClass='title'
+                    containerClass={this.defaultInputClasses.container}
+                    labelClass={this.defaultInputClasses.label}
+                    inputClass='product-card__input product-card__title'
                     label='Title'
                     placeholder='T-Shirt...'
                     propertyName='title'
@@ -40,7 +44,9 @@ export default class ProductCard extends React.Component {
                 />
                 <img className='product-card__image' src={this.state.product.imageUrl} />
                 <InputSet
-                    inputClass='image-url'
+                    containerClass={this.defaultInputClasses.container}
+                    labelClass={this.defaultInputClasses.label}
+                    inputClass='product-card__input product-card__image-url'
                     label='Image URL'
                     placeholder='http://www....'
                     propertyName='imageUrl'
@@ -48,7 +54,9 @@ export default class ProductCard extends React.Component {
                 />
                 <div className='product-card__input-price'>
                     <InputSet
-                        inputClass='base-price'
+                        containerClass='product-card__input-container'
+                        labelClass='product-card__input-label'
+                        inputClass='product-card__input product-card__base-price'
                         label='Price'
                         placeholder='8.99...'
                         propertyName='basePrice'

@@ -1,4 +1,4 @@
-@import "colors";
+@import 'colors';
 @import 'mixins';
 
 .product-card {
@@ -11,6 +11,7 @@
   color: $light-gray;
   margin: 20px;
   max-height: 300px;
+  align-items: center;
 }
 
 .product-card__input {
@@ -60,6 +61,7 @@
   transition: all .2s ease;
   cursor: pointer;
   background-color: $grapefruit;
+  width: 100%;
 
   &:hover {
     background-color: $grapefruit-active;
@@ -78,7 +80,6 @@
 
 .product-card__input.product-card__image-url {
   font-size: 14px;
-  width: calc(100% - 30px);
   margin: 0 0 30px 0;
 }
 
@@ -89,4 +90,10 @@
 
 .product-card__input-price {
   display: flex;
+}
+
+.product-card__input-label {
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 0 0 0 5px;
 }
