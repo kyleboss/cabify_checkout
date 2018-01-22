@@ -10,3 +10,20 @@
   color: $lavander-active;
   text-align: center;
 }
+
+.products-error {
+  display: none;
+  font-size: 14px;
+  background-color: $grapefruit;
+  color: $light-gray;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+
+  &.active-error {
+    display: block;
+  }
+}

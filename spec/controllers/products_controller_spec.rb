@@ -30,7 +30,14 @@ RSpec.describe ProductsController, type: :controller do
   # Product. As you add validations to Product, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { title: 'title', base_price: '1.00', base_currency: :EUR, barcode_number: 'TSHIRT', image_url: 'URL' }
+    {
+      title: 'title',
+      base_price: '1.00',
+      base_currency: :EUR,
+      barcode_number: 'TSHIRT',
+      image_url: 'URL',
+      type: 'Product'
+    }
   end
 
   let(:invalid_attributes) { { title: 'HI' } }
@@ -48,69 +55,54 @@ RSpec.describe ProductsController, type: :controller do
     end
   end
 
-  xdescribe 'POST #create' do
+  describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new Product' do
         expect do
-          post :create, params: { product: valid_attributes }, session: valid_session
+          post :create, params: { product: valid_attributes }.merge(valid_attributes), session: valid_session
         end.to change(Product, :count).by(1)
       end
 
-      it 'redirects to the created product' do
-        post :create, params: { product: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(Product.last)
+      it 'be successful' do
+        post :create, params: { product: valid_attributes }.merge(valid_attributes), session: valid_session
+        expect(response).to be_success
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it 'is not successful' do
         post :create, params: { product: invalid_attributes }, session: valid_session
-        expect(response).to be_success
+        expect(response).to_not be_success
       end
     end
   end
 
-  xdescribe 'PUT #update' do
+  describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { valid_attributes.merge(title: 'holla') }
 
       it 'updates the requested product' do
         product = Product.create! valid_attributes
-        put :update, params: { id: product.to_param, product: new_attributes }, session: valid_session
+        put :update, params: { id: product.to_param, product: new_attributes }.merge(new_attributes),
+                     session: valid_session
         product.reload
-        skip('Add assertions for updated state')
+        expect(product.title).to eq 'holla'
       end
 
-      it 'redirects to the product' do
+      it 'be successful' do
         product = Product.create! valid_attributes
-        put :update, params: { id: product.to_param, product: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(product)
+        put :update, params: { id: product.to_param, product: valid_attributes }.merge(valid_attributes),
+                     session: valid_session
+        expect(response).to be_success
       end
     end
 
     context 'with invalid params' do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+      it 'is not successful' do
         product = Product.create! valid_attributes
         put :update, params: { id: product.to_param, product: invalid_attributes }, session: valid_session
-        expect(response).to be_success
+        expect(response).to_not be_success
       end
-    end
-  end
-
-  xdescribe 'DELETE #destroy' do
-    it 'destroys the requested product' do
-      product = Product.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: product.to_param }, session: valid_session
-      end.to change(Product, :count).by(-1)
-    end
-
-    it 'redirects to the products list' do
-      product = Product.create! valid_attributes
-      delete :destroy, params: { id: product.to_param }, session: valid_session
-      expect(response).to redirect_to(products_url)
     end
   end
 end

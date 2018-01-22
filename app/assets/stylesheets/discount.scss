@@ -6,11 +6,10 @@
 
 .discounts {
   width: 100%;
-  margin: 30px 0 0 0;
 }
 
 .discounts__inputs {
-  padding: 20px 0;
+  padding: 20px 0 0 0;
   display: flex;
   justify-content: center;
 
@@ -34,7 +33,7 @@
   background: none;
   border: 1px solid;
   text-align: center;
-  font-size: 20px;
+  font-size: 14px;
   color: #eee;
   border-radius: 5px;
   outline: none;
@@ -47,5 +46,17 @@
     color: $light-gray;
     font-style: italic;
     font-weight: 200;
+  }
+}
+
+.discounts__error {
+  background-color: $grapefruit;
+  margin: 10px 5px;
+  border-radius: 5px;
+  padding: 5px;
+  display: none;
+
+  &.active-error {
+    display: block;
   }
 }

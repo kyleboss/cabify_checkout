@@ -8,8 +8,9 @@
 class Product < ApplicationRecord
   validates_numericality_of :base_price, greater_than_or_equal_to: 0
   validates_presence_of :title, :image_url, :base_price, :barcode_number
-  has_many :scans
-  has_many :checkouts, through: :scans
+  validates_uniqueness_of :title, :barcode_number
+  has_many :scans, dependent: :destroy
+  has_many :checkouts, through: :scans, dependent: :destroy
 
   # Obtains a product given either the barcode number or the name. Returns nil if there is no match
   def self.retrieve_product(identifier)

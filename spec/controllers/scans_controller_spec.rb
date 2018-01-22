@@ -75,15 +75,13 @@ RSpec.describe ScansController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { valid_attributes.merge(quantity: 4) }
 
       it 'updates the requested scan' do
         scan = Scan.create! valid_attributes
-        put :update, params: { id: scan.to_param, scan: new_attributes }, session: valid_session
+        put :update, params: { id: scan.to_param, scan: new_attributes }.merge(new_attributes), session: valid_session
         scan.reload
-        skip('Add assertions for updated state')
+        expect(scan.quantity).to eq 4
       end
 
       it 'be successful' do

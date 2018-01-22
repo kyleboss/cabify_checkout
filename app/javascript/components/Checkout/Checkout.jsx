@@ -18,7 +18,7 @@ export default class Checkout extends React.Component {
         if (this.state.checkoutId) {
             setCurrencyUrl = `${this.props.baseUrl}/checkouts/${this.state.checkoutId}`;
             axios.put(setCurrencyUrl, setCurrencyArgs)
-                .then((res) => this.updateCheckoutState(res, this))
+                .then((res) => this.updateCheckoutState(res))
                 .catch((error) => {
                     this.setState({isServerError: true});
                     return false;
@@ -26,7 +26,7 @@ export default class Checkout extends React.Component {
         } else {
             setCurrencyUrl = `${this.props.baseUrl}/checkouts`;
             axios.post(setCurrencyUrl, setCurrencyArgs)
-                .then((res) => this.updateCheckoutState(res, this))
+                .then((res) => this.updateCheckoutState(res))
                 .catch((error) => {
                     this.setState({isServerError: true});
                     return false;
@@ -35,14 +35,14 @@ export default class Checkout extends React.Component {
         return true;
     }
 
-    updateCheckoutState = function(ajaxResults, obj) {
+    updateCheckoutState = function(ajaxResults) {
         if (ajaxResults.status >= 200 && ajaxResults.status < 300) {
-            this.setState({isServerError: false});
-            obj.setState({
+            this.setState({
                 scannedProducts: ajaxResults.data.scanned_products,
                 checkoutId: ajaxResults.data.checkout_id,
                 cartSummary: ajaxResults.data.cart_summary,
-                currency: ajaxResults.data.currency
+                currency: ajaxResults.data.currency,
+                isServerError: false
             })
         } else {
             this.setState({isServerError: true});
@@ -55,7 +55,7 @@ export default class Checkout extends React.Component {
             product_identifier: query,
             quantity: quantity,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this))
+        }).then((res) => this.updateCheckoutState(res))
             .catch((error) => {
                 this.setState({isServerError: true});
                 return false;
@@ -67,7 +67,7 @@ export default class Checkout extends React.Component {
         axios.put(`${this.props.baseUrl}/scans/${scan_id}`, {
             quantity: quantity,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this))
+        }).then((res) => this.updateCheckoutState(res))
             .catch((error) => {
                 this.setState({isServerError: true});
                 return false;
@@ -84,7 +84,7 @@ export default class Checkout extends React.Component {
         axios.post(`${this.props.baseUrl}/checkouts`, {
             currency: this.state.currency.code,
             authenticity_token: this.props.authenticityToken
-        }).then((res) => this.updateCheckoutState(res, this))
+        }).then((res) => this.updateCheckoutState(res))
             .catch((error) => {
                 this.setState({isServerError: true});
                 return false;

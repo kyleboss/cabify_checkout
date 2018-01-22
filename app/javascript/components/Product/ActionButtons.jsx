@@ -6,7 +6,7 @@ export default class ActionButtons extends React.Component {
             <div className='action-buttons'>
                 <button
                     className='action-buttons__save'
-                    onChange={(e) => this.props.saveProduct(this.props.product)}
+                    onClick={(e) => this.props.saveProduct(this.props.product)}
                 >
                     Save
                 </button>

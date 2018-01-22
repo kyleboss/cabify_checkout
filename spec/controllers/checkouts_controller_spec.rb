@@ -69,15 +69,13 @@ RSpec.describe CheckoutsController, type: :controller do
 
   describe 'PUT #update' do
     context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
+      let(:new_attributes) { valid_attributes.merge(currency: :EUR) }
 
       it 'updates the requested Checkout' do
         checkout = Checkout.create! valid_attributes
         put :update, params: { id: checkout.to_param, checkout: new_attributes }, session: valid_session
         checkout.reload
-        skip('Add assertions for updated state')
+        expect(checkout.currency).to eq 'EUR'
       end
 
       it 'is successful' do

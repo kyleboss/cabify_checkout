@@ -2,7 +2,12 @@ import React from "react";
 import InputSet from "./InputSet";
 
 export default class DiscountInput extends React.Component {
-    createInputSet = function(label, placeholder, propertyName, value, type = 'text') {
+    constructor(props) {
+        super(props);
+        this.state = {product: this.props.product};
+    }
+
+    createInputSet = function(label, placeholder, propertyName, type = 'text') {
       return(<InputSet
           containerClass='discounts__input-container'
           labelClass='discounts__input-label'
@@ -10,8 +15,11 @@ export default class DiscountInput extends React.Component {
           label={label}
           placeholder={placeholder}
           propertyName={propertyName}
-          value={value}
+          value={this.props.product[propertyName]}
           type={type}
+          errorClass='discounts__error'
+          errorValue={this.props.errors[propertyName]}
+          updateProductProperty={this.props.updateProductProperty}
       />)
     };
 
@@ -19,9 +27,9 @@ export default class DiscountInput extends React.Component {
         return(
             <div>
                 {this.props.product.type === 'BuyXGetXProduct' &&
-                this.createInputSet('Buy', '5...', 'numToBuy', this.props.product.numToBuy, 'number')}
+                this.createInputSet('Buy', '5...', 'numToBuy', 'number')}
                 {this.props.product.type === 'BulkProduct' &&
-                this.createInputSet('Threshold', '5...', 'bulkThreshold', this.props.product.bulkThreshold, 'number')}
+                this.createInputSet('Threshold', '5...', 'bulkThreshold', 'number')}
             </div>
         );
     };
@@ -30,9 +38,9 @@ export default class DiscountInput extends React.Component {
         return(
             <div>
                 {this.props.product.type === 'BuyXGetXProduct' &&
-                this.createInputSet('Get', '3...', 'numWillGet', this.props.product.numWillGet, 'number')}
+                this.createInputSet('Get', '3...', 'numWillGet', 'number')}
                 {this.props.product.type === 'BulkProduct' &&
-                this.createInputSet('Bulk price', '1.99...', 'bulkPrice', this.props.product.bulkPrice)}
+                this.createInputSet('Bulk price', '1.99...', 'bulkPrice', 'number')}
             </div>
 
         );

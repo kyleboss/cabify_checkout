@@ -15,44 +15,42 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.json
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_args)
 
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      render json: Product.all, status: :created
+    else
+      render json: @product.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /products/1
-  # DELETE /products/1.json
-  def destroy
-    @product.destroy
-    respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
-      format.json { head :no_content }
+    if (!product_params[:is_removal] && @product.update(product_args)) ||
+       (product_params[:is_removal] && @product.destroy)
+      render json: Product.all, status: :ok
+    else
+      render json: @product.errors, status: :unprocessable_entity
     end
   end
 
   private
+
+  def product_args
+    {
+        title: product_params[:title],
+        base_price: product_params[:base_price],
+        base_currency: product_params[:base_currency],
+        barcode_number: product_params[:barcode_number],
+        image_url: product_params[:image_url],
+        num_to_buy: product_params[:num_to_buy],
+        num_will_get: product_params[:num_will_get],
+        bulk_threshold: product_params[:bulk_threshold],
+        bulk_price: product_params[:bulk_price],
+        type: product_params[:type]
+    }
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_product
@@ -61,7 +59,7 @@ class ProductsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def product_params
-    params.require(:product).permit(:title, :base_price, :base_currency, :barcode_number, :image_url, :num_to_buy,
-                                    :num_will_get, :bulk_threshold, :bulk_price)
+    params.permit(:title, :base_price, :base_currency, :barcode_number, :image_url, :num_to_buy,
+                  :num_will_get, :bulk_threshold, :bulk_price, :is_removal, :authenticity_token, :id, :type).permit!
   end
 end

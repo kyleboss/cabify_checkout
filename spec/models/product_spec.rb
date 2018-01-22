@@ -31,7 +31,7 @@ describe Product do
   describe '#retrieve_product' do
     let!(:product1) { FactoryBot.create(:product, barcode_number: '123', title: 'Tshirt') }
     let!(:product2) { FactoryBot.create(:product, barcode_number: '3879345789534', title: 'abc') }
-    let!(:product3) { FactoryBot.create(:product, barcode_number: '3879345789534', title: 'Tshirt') }
+    let!(:product3) { FactoryBot.create(:product, barcode_number: '387934578954', title: 'Voucher') }
     let(:identifier) { nil }
     subject { Product.retrieve_product(identifier) }
     context 'identifier matches barcode number' do
