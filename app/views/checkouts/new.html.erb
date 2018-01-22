@@ -1,6 +1,7 @@
-<%= javascript_pack_tag 'checkout' %>
+<%= javascript_pack_tag 'application' %>
 <%= content_tag :div,
-                id: "checkout_data",
+                id: "data",
+                type: 'checkout',
                 data: {
                     allProducts: @all_products,
                     allCurrencies: @all_currencies,

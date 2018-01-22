@@ -1,6 +1,7 @@
-<%= javascript_pack_tag 'product' %>
+<%= javascript_pack_tag 'application' %>
 <%= content_tag :div,
-                id: "product_data",
+                id: "data",
+                type: 'product',
                 data: {
                     allProducts: @all_products,
                     baseUrl: @base_url,
