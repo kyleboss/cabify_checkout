@@ -12,6 +12,7 @@ class Checkout < ApplicationRecord
   #
   # Note: Quantity can be negative. This will allow the cashier to undo a mistake.
   def scan(product_identifier, quantity = 1)
+    save! if id.nil?
     product = Product.retrieve_product(product_identifier) # Turn barcode number/name to a Product object
     scan_for_product = scan_for(product)
     update_quantity_or_create_scan(product, quantity.to_i, scan_for_product)
@@ -27,7 +28,7 @@ class Checkout < ApplicationRecord
   # If there are no sums, 0 will be returned. Also, it takes in a currency, which will be used if a physical store is
   # located outside of Cabify's country or if a shopper desires to use a different currency.
   def total
-    scans.sum { |s| s.total_cost(apply_discount: true) }
+    '%.2f' % (scans.sum { |s| s.total_cost(apply_discount: true) })
   end
 
   private
@@ -41,6 +42,7 @@ class Checkout < ApplicationRecord
     else
       scan_for_product = Scan.new(checkout_id: id, product_id: product&.id, quantity: quantity)
     end
+    scan_for_product.save!
     scan_for_product
   end
 

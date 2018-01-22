@@ -22,7 +22,7 @@ class Product < ApplicationRecord
     raise Exceptions::NegativeQuantity if quantity.negative?
     raise Exceptions::InvalidCurrency unless ExchangeRateService.valid_currency?(currency)
     ind_price = apply_discount ? price_per_unit(quantity) : base_price
-    quantity * ind_price * ExchangeRateService.exchange_rate(base_currency.to_sym.upcase, currency.to_sym.upcase)
+    (quantity * ind_price * ExchangeRateService.exchange_rate(base_currency.to_sym.upcase, currency.to_sym.upcase))
   end
 
   def as_json(options = {})
