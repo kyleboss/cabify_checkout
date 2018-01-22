@@ -11,11 +11,11 @@ class Checkout < ApplicationRecord
   # We leave validation of product_id and quantity to the Scan validation.
   #
   # Note: Quantity can be negative. This will allow the cashier to undo a mistake.
-  def scan(product_identifier, quantity = 1)
+  def scan(product_identifier, quantity = 1, throw_error = true)
     save! if id.nil?
     product = Product.retrieve_product(product_identifier) # Turn barcode number/name to a Product object
     scan_for_product = scan_for(product)
-    update_quantity_or_create_scan(product, quantity.to_i, scan_for_product)
+    update_quantity_or_create_scan(product, quantity.to_i, scan_for_product, throw_error)
   end
 
   # Get all the scans for a Checkout.
@@ -36,13 +36,13 @@ class Checkout < ApplicationRecord
   # Increments the quantity of an existing scan or creates a new scan if the product has not been scanned yet. This
   # takes in a product, quantity (which could be negative to allow cashiers the ability to undo), and an existing scan,
   # if one exists. scan_for_product will be nil otherwise.
-  def update_quantity_or_create_scan(product, quantity, scan_for_product = nil)
+  def update_quantity_or_create_scan(product, quantity, scan_for_product = nil, throw_error = true)
     if scan_for_product
       scan_for_product.quantity += quantity
     else
       scan_for_product = Scan.new(checkout_id: id, product_id: product&.id, quantity: quantity)
     end
-    scan_for_product.save!
+    throw_error ? scan_for_product.save! : scan_for_product.save
     scan_for_product
   end
 

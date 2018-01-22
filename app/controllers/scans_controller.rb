@@ -7,7 +7,7 @@ class ScansController < ApplicationController
   # POST /scans.json
   def create
     checkout = scan_params[:checkout_id] ? Checkout.find(scan_params[:checkout_id]) : Checkout.create!
-    @scan = checkout.scan(scan_params[:product_identifier], scan_params[:quantity])
+    @scan = checkout.scan(scan_params[:product_identifier], scan_params[:quantity], false)
 
     if @scan.save
       render json: CheckoutState.new(@scan), status: :created

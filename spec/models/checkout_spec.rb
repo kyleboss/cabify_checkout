@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Checkout do
   describe '#scan' do
     after(:each) { checkout.scan(product.id, 5) }
@@ -8,7 +10,7 @@ describe Checkout do
       subject { Product }
       before(:each) do
         allow(checkout).to receive(:scan_for).with(product) { scan }
-        allow(checkout).to receive(:update_quantity_or_create_scan).with(product, 5, scan)
+        allow(checkout).to receive(:update_quantity_or_create_scan).with(product, 5, scan, true)
       end
       it { is_expected.to receive(:retrieve_product).with(product.id) { product } }
     end
@@ -18,11 +20,11 @@ describe Checkout do
       before(:each) do
         allow(Product).to receive(:retrieve_product).with(product&.id) { product }
         allow(checkout).to receive(:scan_for).with(product) { scan }
-        allow(checkout).to receive(:update_quantity_or_create_scan).with(product, 5, scan)
+        allow(checkout).to receive(:update_quantity_or_create_scan).with(product, 5, scan, true)
       end
 
       it { is_expected.to receive(:scan_for).with(product) { scan } }
-      it { is_expected.to receive(:update_quantity_or_create_scan).with(product, 5, scan) }
+      it { is_expected.to receive(:update_quantity_or_create_scan).with(product, 5, scan, true) }
     end
   end
 
@@ -82,7 +84,7 @@ describe Checkout do
       it { is_expected.to be_nil }
     end
     context 'none of the scans for this checkout is for the given product' do
-      let(:scan) { FactoryBot.build_stubbed(:scan, product_id: (product.id)+1) }
+      let(:scan) { FactoryBot.build_stubbed(:scan, product_id: product.id + 1) }
       it { is_expected.to be_nil }
     end
     context 'a single scan in this checkout is for the given product' do
@@ -102,7 +104,7 @@ describe Checkout do
 
     context 'scans are empty' do
       let(:scans) { [] }
-      it { is_expected.to eq 0 }
+      it { is_expected.to eq '0.00' }
     end
 
     context 'scans are not empty' do
@@ -117,7 +119,7 @@ describe Checkout do
         allow(scan2).to receive(:total_cost) { 2 }
         allow(scan3).to receive(:total_cost) { 0 }
         checkout.total
-        expect(subject).to eq 14
+        expect(subject).to eq '14.00'
       end
     end
   end
